@@ -6,10 +6,11 @@ import Suggestions from "../components/utils/Suggestions";
 import Navbar from "../components/Navbar";
 
 function RequireUser() {
-  const [cookies, setCookie] = useCookies();
-  const user = cookies.token;
+  // const [cookies, setCookie] = useCookies();
+  // const user = cookies.token;
+  const token = localStorage.getItem("token");
 
-  return user ? (
+  return token ? (
     <>
       <Navbar />
       <div className="flex ">

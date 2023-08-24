@@ -22,6 +22,7 @@ function Login() {
       setLoading(true);
       const res = await axios.post("/auth/login", loginData);
       if (res.data.success) {
+        localStorage.setItem("token", res.data.token);
         toast.success("Login successfull");
         setLoading(false);
         navigate("/");

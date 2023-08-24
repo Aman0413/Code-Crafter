@@ -26,6 +26,7 @@ function Sidebar() {
 
   async function logout() {
     try {
+      localStorage.removeItem("token");
       const res = await axios.get("/auth/logout");
       if (res.data.success) {
         navigate("/login");

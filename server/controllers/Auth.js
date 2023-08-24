@@ -174,7 +174,7 @@ exports.login = async (req, res) => {
     };
 
     const token = await jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: "3d",
+      expiresIn: "30d",
     });
 
     //save token to cookie
@@ -182,7 +182,7 @@ exports.login = async (req, res) => {
       httpOnly: true,
       secure: true,
       //expire for cookie in 3 days
-      expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+      maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 
     return res.status(200).json({

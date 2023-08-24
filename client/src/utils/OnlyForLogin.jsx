@@ -5,6 +5,8 @@ import { Navigate, Outlet } from "react-router-dom";
 function OnlyIfNotLogin() {
   const [cookies, setCookie] = useCookies();
   const user = cookies.token;
+
+  console.log("OnlyIfNotLogin", cookies);
   return user ? <Navigate to="/" /> : <Outlet />;
 }
 

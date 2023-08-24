@@ -10,4 +10,10 @@ const axiosClient = axios.create({
   withCredentials: true,
 });
 
+axiosClient.interceptors.request.use((request) => {
+  const token = localStorage.getItem("token");
+  request.headers["authorization"] = `Bearer ${token}`;
+  return request;
+});
+
 export default axiosClient;

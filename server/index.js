@@ -15,6 +15,9 @@ const User = require("./models/User");
 dotenv.config();
 const PORT = process.env.PORT || 4001;
 
+//cookie parser
+app.use(cookieParser());
+
 const origin =
   process.env.NODE_ENV === "production"
     ? process.env.CLIENT_URL
@@ -38,9 +41,6 @@ app.listen(PORT, () => {
 
 //connect to database
 connectDB();
-
-//cookie parser
-app.use(cookieParser());
 
 //cloudinary config
 cloudinaryConnect();

@@ -3,9 +3,12 @@ import { useCookies } from "react-cookie";
 import { Navigate, Outlet } from "react-router-dom";
 
 function OnlyIfNotLogin() {
-  const token = localStorage.getItem("token");
+  // const [cookies, setCookie] = useCookies();
+  // const user = cookies.token;
 
-  console.log("OnlyIfNotLogin", token);
+  const token = localStorage.getItem("token");
+  console.log("TOKEN", token);
+
   return token ? <Navigate to="/" /> : <Outlet />;
 }
 

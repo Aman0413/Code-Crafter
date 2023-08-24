@@ -171,17 +171,16 @@ exports.login = async (req, res) => {
       id: user._id,
       name: user.name,
       email: user.email,
+      role: user.role,
     };
 
     const token = await jwt.sign(payload, process.env.JWT_SECRET, {
       expiresIn: "30d",
     });
 
-    //save token to cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: true,
-      //expire for cookie in 3 days
+      secure: process.env.NODE_ENV === "production" ? true : false,
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 
@@ -189,7 +188,6 @@ exports.login = async (req, res) => {
       success: true,
       message: "User Logged In Successfully",
       token: token,
-      data: user,
     });
   } catch (error) {
     return res.status(500).json({
@@ -203,7 +201,10 @@ exports.login = async (req, res) => {
 //logout user get request
 exports.logout = async (req, res) => {
   try {
-    res.clearCookie("token");
+    res.clearCookie("token", {
+      httpOnly: true,
+      // secure: true,
+    });
     return res.status(200).json({
       success: true,
       message: "User Logged Out Successfully",

@@ -17,7 +17,7 @@ function Story({ image, name, storyImage, userName, userAvatar, id }) {
             href="#"
           >
             <img
-              class="h-20 w-20 rounded-full"
+              class="h-16 w-16 md:h-20 md:w-20 rounded-full"
               src={storyImage}
               alt="cute kitty"
               onClick={() => setShowStory(true)}

@@ -30,7 +30,7 @@ function Search() {
     console.log("SEARCH PAGE", user);
   }, []);
   return (
-    <div className="text-white w-full h-full bg-dark-1 p-10">
+    <div className="text-white w-full h-screen bg-dark-1 p-10">
       <div>
         <h2 className="text-3xl font-bold">Search</h2>
       </div>
@@ -44,7 +44,7 @@ function Search() {
         />
       </div>
 
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-6 overflow-y-scroll">
         {userProfile.length > 0 &&
           userProfile.map((item) => {
             return (

@@ -116,7 +116,7 @@ const ProjectCard = ({
   }, [id, dispatch]);
 
   return (
-    <div className="bg-dark-2 rounded-lg shadow p-4 m-4 text-white w-96 ">
+    <div className="bg-dark-2 rounded-lg shadow p-4 m-4 text-white md:w-96 w-full ">
       <div className="flex items-center justify-between">
         <div className="flex  items-center gap-2">
           <img
@@ -215,7 +215,7 @@ const ProjectCard = ({
               onChange={(e) => setComment(e.target.value)}
             />
             <button
-              className="bg-primary-500 w-[20%] p-2 rounded-lg font-medium  flex items-center justify-center"
+              className="bg-primary-500 md:w-[20%] p-2 rounded-lg font-medium  flex items-center justify-center"
               onClick={() => {
                 postComment(id, comment);
               }}

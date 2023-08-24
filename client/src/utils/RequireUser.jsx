@@ -14,7 +14,10 @@ function RequireUser() {
       <Navbar />
       <div className="flex ">
         <Sidebar />
-        <div className="flex-grow">
+        <div className=" block md:hidden bg-dark-1 bg-opacity-60 backdrop-blur-lg w-full z-20 fixed bottom-0 left-0  h-28 mb-2">
+          <div>Aman</div>
+        </div>
+        <div className="flex-grow ">
           <Outlet />
         </div>
         <Suggestions />

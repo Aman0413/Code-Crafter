@@ -22,7 +22,7 @@ function Suggestions() {
     fetchUsers();
   }, []);
   return (
-    <div className="bg-dark-2 text-white w-[30%] h-[100vh] overflow-y-scroll sticky top-0 right-0 z-2 p-10 border-l-2 border-gray-1">
+    <div className="hidden md:block bg-dark-2 text-white w-[30%] h-[100vh] overflow-y-scroll sticky top-0 right-0 z-2 p-10 border-l-2 border-gray-1">
       <div>
         <p className="font-bold text-2xl">Suggestions for you</p>
 

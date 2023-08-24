@@ -44,7 +44,7 @@ function Profile() {
   }, [id]);
 
   return (
-    <div className="bg-dark-1 w-full h-full flex flex-col  items-center ">
+    <div className="bg-dark-1 text-white  w-screen md:w-full h-full flex flex-col  items-center ">
       <LoadingBar
         color="#f11946"
         progress={progress}
@@ -69,7 +69,7 @@ function Profile() {
       )}
 
       {userProfile && (
-        <div className="w-[80%] bg-dark-2 text-white rounded-lg flex items-center justify-between h-24">
+        <div className="md:w-[80%] w-screen   text-white rounded-lg flex items-center justify-between md:h-24 h-20 ">
           <div
             className={`flex justify-center items-center gap-2  w-40  rounded-md transition-all ease-in-out duration-300 cursor-pointer h-full ${
               showTabs === "posts" ? "bg-primary-500 text-white" : ""
@@ -77,8 +77,8 @@ function Profile() {
             onClick={() => handleTabs("posts")}
           >
             <div
-              className={`text-xl text-light-3 font-bold ${
-                showTabs === "posts" ? " text-dark-3" : ""
+              className={`text-xl  font-bold ${
+                showTabs === "posts" ? "text-dark-3" : "text-light-3"
               }`}
             >
               <GoFileMedia />
@@ -88,8 +88,8 @@ function Profile() {
                 {userProfile.posts?.length > 0 ? userProfile.posts?.length : 0}
               </p>
               <p
-                className={`text-gray-1 font-medium ${
-                  showTabs === "posts" ? " text-dark-3" : ""
+                className={` font-medium ${
+                  showTabs === "posts" ? " text-dark-3" : "text-light-3"
                 }`}
               >
                 Posts
@@ -103,8 +103,8 @@ function Profile() {
             onClick={() => handleTabs("followers")}
           >
             <div
-              className={`text-2xl text-light-3 font-bold ${
-                showTabs === "followers" ? "text-dark-3" : ""
+              className={`text-2xl  font-bold ${
+                showTabs === "followers" ? "text-dark-3" : "text-light-3"
               }`}
             >
               <PiUsersThreeBold />
@@ -116,8 +116,8 @@ function Profile() {
                   : 0}
               </p>
               <p
-                className={`text-gray-1 font-medium ${
-                  showTabs === "followers" ? " text-dark-3" : ""
+                className={` font-medium ${
+                  showTabs === "followers" ? " text-dark-3" : "text-light-3"
                 }`}
               >
                 Followers
@@ -131,8 +131,8 @@ function Profile() {
             onClick={() => handleTabs("followings")}
           >
             <div
-              className={`text-2xl text-light-3 font-bold ${
-                showTabs === "followings" ? "text-dark-3" : ""
+              className={`text-2xl  font-bold ${
+                showTabs === "followings" ? "text-dark-3" : "text-light-3"
               }`}
             >
               {" "}
@@ -145,8 +145,8 @@ function Profile() {
                   : 0}
               </p>
               <p
-                className={`text-gray-1 font-medium ${
-                  showTabs === "followings" ? "text-dark-3" : ""
+                className={` font-medium ${
+                  showTabs === "followings" ? "text-dark-3" : "text-light-3"
                 }`}
               >
                 Followings
@@ -157,7 +157,7 @@ function Profile() {
       )}
 
       <div
-        className={` w-[60%]  flex flex-col justify-center items-center  p-4 gap-7 ${
+        className={` md:w-[60%]  flex flex-col justify-center items-center  p-6 gap-7 ${
           showTabs === "posts" ? "block" : "hidden"
         } `}
       >
@@ -185,7 +185,7 @@ function Profile() {
       </div>
 
       <div
-        className={`text-white mt-10 bg-dark-2 rounded-md p-6 overflow-y-scroll h-80 w-[80%] flex flex-col items-center gap-6 ${
+        className={`text-white mt-10 bg-dark-2 rounded-md p-6 overflow-y-scroll h-80 md:w-[80%] w-[90%] flex flex-col items-center gap-6 ${
           showTabs === "followings" ? "block" : "hidden"
         }`}
       >
@@ -205,7 +205,7 @@ function Profile() {
           : "No Followings Yet"}
       </div>
       <div
-        className={`text-white mt-10 bg-dark-2 rounded-md p-6 overflow-y-scroll h-80 w-[80%] flex flex-col items-center gap-6 ${
+        className={`text-white mt-10 bg-dark-2 rounded-md p-6 overflow-y-scroll h-80 md:w-[80%] w-[90%] flex flex-col items-center gap-6 ${
           showTabs === "followers" ? "block" : "hidden"
         }`}
       >

@@ -38,7 +38,7 @@ function Sidebar() {
   }
   return (
     <div
-      className={`bg-dark-2 w-[18%] h-[100vh]  text-white flex flex-col justify-around items-center md:text-[1.2rem] sticky top-0 right-0 overflow-y-scroll transition-all ease-in-out  duration-300 font-medium  ${
+      className={` hidden bg-dark-2 w-[18%] h-[100vh]  text-white md:flex flex-col justify-around items-center md:text-[1.2rem] sticky top-0 right-0 overflow-y-scroll transition-all ease-in-out  duration-300 font-medium  ${
         active ? "w-[18%]" : "w-[5%]"
       } `}
     >
@@ -105,7 +105,7 @@ function Sidebar() {
         </div>
       </Link>
 
-      <Link
+      {/* <Link
         to="/community"
         className="flex items-center hover:bg-primary-500 w-[75%] justify-start gap-4 rounded-lg h-16 px-2 transition-all ease-in-out duration-300 hover:translate-x-2"
       >
@@ -115,7 +115,7 @@ function Sidebar() {
           </div>
           <div className={`${active ? "" : "hidden"}`}>Community</div>
         </div>
-      </Link>
+      </Link> */}
 
       <Link
         to={`/profile/${user?._id}`}

@@ -2,7 +2,6 @@ const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
-const path = require("path");
 const cors = require("cors");
 const cron = require("node-cron");
 const { cloudinaryConnect } = require("./config/cloudinary");
@@ -19,11 +18,6 @@ const PORT = process.env.PORT || 4001;
 //cookie parser
 app.use(cookieParser());
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "client", "build", "index.html"));
-});
-
-console.log("PATH");
 const origin =
   process.env.NODE_ENV === "production"
     ? process.env.CLIENT_URL

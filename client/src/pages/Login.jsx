@@ -23,6 +23,7 @@ function Login() {
       const res = await axios.post("/auth/login", loginData);
       if (res.data.success) {
         localStorage.setItem("token", res.data.token);
+        dispatch(getMyProfile());
         toast.success("Login successfull");
         setLoading(false);
         navigate("/");

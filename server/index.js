@@ -22,10 +22,10 @@ const origin =
   process.env.NODE_ENV === "production"
     ? process.env.CLIENT_URL
     : "http://localhost:3000";
-//cors
+
 app.use(
   cors({
-    origin: origin,
+    origin: [origin, "http://localhost:3000"],
     credentials: true,
   })
 );

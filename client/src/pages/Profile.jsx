@@ -44,7 +44,7 @@ function Profile() {
   }, [id]);
 
   return (
-    <div className="bg-dark-1 text-white  w-screen md:w-full h-full flex flex-col  items-center mb-20 md:mb-10 ">
+    <div className="bg-dark-1 text-white  w-full md:w-full h-full flex flex-col  items-center mb-20 md:mb-10 ">
       <LoadingBar
         color="#f11946"
         progress={progress}
@@ -67,94 +67,97 @@ function Profile() {
           )}
         />
       )}
-
-      {userProfile && (
-        <div className="md:w-[80%] w-screen   text-white rounded-lg flex items-center justify-between md:h-24 h-20 ">
-          <div
-            className={`flex justify-center items-center gap-2  w-40  rounded-md transition-all ease-in-out duration-300 cursor-pointer h-full ${
-              showTabs === "posts" ? "bg-primary-500 text-white" : ""
-            }`}
-            onClick={() => handleTabs("posts")}
-          >
+      <div className=" w-[80%] bg-dark-3 flex items-center justify-center rounded-md">
+        {userProfile && (
+          <div className="w-[100%] text-white rounded-lg flex items-center justify-between md:h-24 h-16 ">
             <div
-              className={`text-xl  font-bold ${
-                showTabs === "posts" ? "text-dark-3" : "text-light-3"
+              className={`flex justify-center items-center gap-2  w-40  rounded-md transition-all ease-in-out duration-300 cursor-pointer h-full ${
+                showTabs === "posts" ? "bg-primary-500 text-white" : ""
               }`}
+              onClick={() => handleTabs("posts")}
             >
-              <GoFileMedia />
-            </div>
-            <div className="flex flex-col justify-center items-center">
-              <p className="text-xl font-bold">
-                {userProfile.posts?.length > 0 ? userProfile.posts?.length : 0}
-              </p>
-              <p
-                className={` font-medium ${
-                  showTabs === "posts" ? " text-dark-3" : "text-light-3"
+              <div
+                className={`text-sm md:text-xl  font-bold ${
+                  showTabs === "posts" ? "text-dark-3" : "text-light-3"
                 }`}
               >
-                Posts
-              </p>
+                <GoFileMedia />
+              </div>
+              <div className="flex flex-col justify-center items-center">
+                <p className="text-sm md:text-xl font-bold">
+                  {userProfile.posts?.length > 0
+                    ? userProfile.posts?.length
+                    : 0}
+                </p>
+                <p
+                  className={` font-medium text-sm md:text-xl ${
+                    showTabs === "posts" ? " text-dark-3" : "text-light-3"
+                  }`}
+                >
+                  Posts
+                </p>
+              </div>
             </div>
-          </div>
-          <div
-            className={`flex justify-center items-center gap-2  w-40 p-1 rounded-md transition-all ease-in-out duration-300 cursor-pointer h-full ${
-              showTabs === "followers" ? "bg-primary-500 text-white " : ""
-            } `}
-            onClick={() => handleTabs("followers")}
-          >
             <div
-              className={`text-2xl  font-bold ${
-                showTabs === "followers" ? "text-dark-3" : "text-light-3"
-              }`}
+              className={`flex justify-center items-center gap-2  w-40 p-1 rounded-md transition-all ease-in-out duration-300 cursor-pointer h-full ${
+                showTabs === "followers" ? "bg-primary-500 text-white " : ""
+              } `}
+              onClick={() => handleTabs("followers")}
             >
-              <PiUsersThreeBold />
-            </div>
-            <div className="flex flex-col justify-center items-center">
-              <p className="text-xl font-bold">
-                {userProfile.followers?.length > 0
-                  ? userProfile.followers?.length
-                  : 0}
-              </p>
-              <p
-                className={` font-medium ${
-                  showTabs === "followers" ? " text-dark-3" : "text-light-3"
+              <div
+                className={`text-xl md:text-2xl  font-bold ${
+                  showTabs === "followers" ? "text-dark-3" : "text-light-3"
                 }`}
               >
-                Followers
-              </p>
+                <PiUsersThreeBold />
+              </div>
+              <div className="flex flex-col justify-center items-center">
+                <p className="text-xl font-bold">
+                  {userProfile.followers?.length > 0
+                    ? userProfile.followers?.length
+                    : 0}
+                </p>
+                <p
+                  className={` font-medium text-sm md:text-xl ${
+                    showTabs === "followers" ? " text-dark-3" : "text-light-3"
+                  }`}
+                >
+                  Followers
+                </p>
+              </div>
             </div>
-          </div>
-          <div
-            className={`flex justify-center items-center gap-2  w-40 p-1 rounded-md transition-all ease-in-out duration-300 cursor-pointer h-full  ${
-              showTabs === "followings" ? "bg-primary-500 text-white " : ""
-            }`}
-            onClick={() => handleTabs("followings")}
-          >
             <div
-              className={`text-2xl  font-bold ${
-                showTabs === "followings" ? "text-dark-3" : "text-light-3"
+              className={`flex justify-center items-center gap-2  w-40 p-1 rounded-md transition-all ease-in-out duration-300 cursor-pointer h-full  ${
+                showTabs === "followings" ? "bg-primary-500 text-white " : ""
               }`}
+              onClick={() => handleTabs("followings")}
             >
-              {" "}
-              <PiUsersThreeBold />
-            </div>
-            <div className="flex flex-col justify-center items-center">
-              <p className="text-xl font-bold">
-                {userProfile.followings?.length > 0
-                  ? userProfile.followings?.length
-                  : 0}
-              </p>
-              <p
-                className={` font-medium ${
+              <div
+                className={`text-xl md:text-2xl   font-bold ${
                   showTabs === "followings" ? "text-dark-3" : "text-light-3"
                 }`}
               >
-                Followings
-              </p>
+                {" "}
+                <PiUsersThreeBold />
+              </div>
+              <div className="flex flex-col justify-center items-center">
+                <p className="text-sm md:text-xl font-bold">
+                  {userProfile.followings?.length > 0
+                    ? userProfile.followings?.length
+                    : 0}
+                </p>
+                <p
+                  className={` font-medium text-sm md:text-xl ${
+                    showTabs === "followings" ? "text-dark-3" : "text-light-3"
+                  }`}
+                >
+                  Followings
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       <div
         className={` md:w-[60%]  flex flex-col justify-center items-center  p-6 gap-7 ${
@@ -180,10 +183,9 @@ function Profile() {
               })}
           </>
         ) : (
-          <div>There is no projects</div>
+          <div>{userProfile && "There is no projects"}</div>
         )}
       </div>
-
       <div
         className={`text-white mt-10 bg-dark-2 rounded-md p-6 overflow-y-scroll h-80 md:w-[80%] w-[90%] flex flex-col items-center gap-6 ${
           showTabs === "followings" ? "block" : "hidden"

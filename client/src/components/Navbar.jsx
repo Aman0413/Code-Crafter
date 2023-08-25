@@ -7,7 +7,7 @@ function Navbar() {
   const { user } = useSelector((state) => state.user);
 
   return (
-    <div className="bg-dark-2 text-white w-full px-5 h-20 py-2 flex justify-center items-center sticky ">
+    <div className=" w-full bg-dark-3  text-white px-5 h-20 py-2 flex justify-center items-center sticky border-light-4 border-b-[1px]  ">
       <div className="flex items-center w-full justify-between ">
         <Link to={"/"}>
           {" "}

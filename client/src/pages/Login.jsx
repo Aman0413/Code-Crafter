@@ -27,6 +27,7 @@ function Login() {
         toast.success("Login successfull");
         setLoading(false);
         navigate("/");
+        dispatch(getMyProfile());
       }
     } catch (error) {
       toast.error(error.response.data.message);

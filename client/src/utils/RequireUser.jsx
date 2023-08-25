@@ -44,7 +44,7 @@ function RequireUser() {
   }
 
   return token ? (
-    <>
+    <div>
       <Navbar />
       <div className="flex ">
         <Sidebar />
@@ -59,7 +59,7 @@ function RequireUser() {
               }`}
             >
               <AiOutlineHome
-                className={`text-3xl ${
+                className={`text-xl ${
                   pathname === "/" ? "text-dark-3" : "text-primary-500"
                 } `}
               />
@@ -73,7 +73,7 @@ function RequireUser() {
               }`}
             >
               <AiOutlineSearch
-                className={`text-3xl ${
+                className={`text-xl ${
                   pathname === "/search" ? "text-dark-3" : "text-primary-500"
                 } `}
               />
@@ -87,7 +87,7 @@ function RequireUser() {
               }`}
             >
               <AiOutlineHeart
-                className={`text-3xl ${
+                className={`text-xl ${
                   pathname === "/activity" ? "text-dark-3" : "text-primary-500"
                 } `}
               />
@@ -101,7 +101,7 @@ function RequireUser() {
               }`}
             >
               <RiImageAddLine
-                className={`text-3xl ${
+                className={`text-xl ${
                   pathname === "/post-post" ? "text-dark-3" : "text-primary-500"
                 } `}
               />
@@ -115,7 +115,7 @@ function RequireUser() {
               }`}
             >
               <AiOutlineUser
-                className={`text-3xl ${
+                className={`text-xl ${
                   pathname === `/profile/${user?._id}`
                     ? "text-dark-3"
                     : "text-primary-500"
@@ -123,7 +123,7 @@ function RequireUser() {
               />
             </Link>
             <button onClick={logout}>
-              <FiLogOut className="text-3xl text-primary-500" />
+              <FiLogOut className="text-xl text-primary-500" />
             </button>
           </div>
         </div>
@@ -132,7 +132,7 @@ function RequireUser() {
         </div>
         <Suggestions />
       </div>
-    </>
+    </div>
   ) : (
     <Navigate to="/login" />
   );

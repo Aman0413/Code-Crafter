@@ -30,7 +30,7 @@ function Search() {
     console.log("SEARCH PAGE", user);
   }, []);
   return (
-    <div className="text-white w-full h-screen bg-dark-1 p-10 mb-20 md:mb-10">
+    <div className="text-white w-full h-screen bg-dark-1 p-10  mb-20 md:mb-10">
       <div>
         <h2 className="text-3xl font-bold">Search</h2>
       </div>
@@ -38,7 +38,7 @@ function Search() {
       <div className="my-8">
         <input
           type="text"
-          className="bg-dark-2 w-full p-5 rounded-lg placeholder-gray-1 placeholder:text-xl text-xl outline-none focus:outline-gray-1"
+          className="bg-dark-2 w-full p-4 md:p-5 rounded-lg placeholder-gray-1 placeholder:text-xl text-xl outline-none focus:outline-gray-1"
           placeholder="Seach Users"
           onChange={handleChange}
         />

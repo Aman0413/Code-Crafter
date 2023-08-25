@@ -64,7 +64,7 @@ function EditProfile() {
   };
 
   return (
-    <div className="bg-dark-1 text-white w-full h-full px-10 py-10 ">
+    <div className="bg-dark-1 text-white w-full h-full px-10 py-10 mb-20 md:mb-10">
       <div className="flex flex-col gap-3">
         <h2 className="font-extrabold text-3xl">Edit Profile</h2>
         <p className=" ">Make any changes</p>

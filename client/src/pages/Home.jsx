@@ -19,10 +19,14 @@ function Home() {
 
   useEffect(() => {
     dispatch(getMyProfile());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getMyProfile());
   }, []);
 
   return (
-    <div className="md:w-full w-screen h-full bg-dark-1  text-white p-10">
+    <div className="md:w-full w-screen h-full bg-dark-1  text-white p-10 mb-20 md:mb-10">
       <div>
         <h2 className="font-bold text-3xl">Home</h2>
 

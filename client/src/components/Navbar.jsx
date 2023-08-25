@@ -14,7 +14,10 @@ function Navbar() {
           <h1 className="md:text-2xl font-bold cursor-pointer">CodeCrafter</h1>
         </Link>
 
-        <Avatar src={user?.avatar?.url} size="45" round />
+        <Link to={`profile/${user?._id}`}>
+          {" "}
+          <Avatar src={user?.avatar?.url} size="45" round />
+        </Link>
       </div>
     </div>
   );

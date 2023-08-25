@@ -30,7 +30,7 @@ function Search() {
     console.log("SEARCH PAGE", user);
   }, []);
   return (
-    <div className="text-white w-full h-screen bg-dark-1 p-10">
+    <div className="text-white w-full h-screen bg-dark-1 p-10 mb-20 md:mb-10">
       <div>
         <h2 className="text-3xl font-bold">Search</h2>
       </div>

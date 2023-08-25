@@ -44,7 +44,7 @@ function Profile() {
   }, [id]);
 
   return (
-    <div className="bg-dark-1 text-white  w-screen md:w-full h-full flex flex-col  items-center ">
+    <div className="bg-dark-1 text-white  w-screen md:w-full h-full flex flex-col  items-center mb-20 md:mb-10 ">
       <LoadingBar
         color="#f11946"
         progress={progress}

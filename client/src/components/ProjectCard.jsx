@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { BiCommentDetail } from "react-icons/bi";
+import { BiCommentDetail, BiMessageSquareDetail } from "react-icons/bi";
 import axios from "../utils/axiosclient";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
@@ -150,19 +150,20 @@ const ProjectCard = ({
           }}
         >
           {isLiked ? (
-            <AiFillHeart className="text-3xl active:scale-95 text-red-600" />
+            <AiFillHeart className="text-2xl md:text-3xl active:scale-95 text-red-600" />
           ) : (
-            <AiOutlineHeart className="text-3xl active:scale-95" />
+            <AiOutlineHeart className=" text-2xl md:text-3xl active:scale-95" />
           )}
 
-          <p>{likes?.length} likes</p>
+          <p className="text-sm md:text-base">{likes?.length} likes</p>
         </button>
         <div
           className="flex items-center cursor-pointer gap-2"
           onClick={toggleComments}
         >
-          <BiCommentDetail className="text-3xl" />
-          <p className="">
+          <BiMessageSquareDetail className="text-xl md:text-3xl " />
+
+          <p className="hidden md:block">
             Comments {comments?.length <= 0 ? 0 : comments?.length}
           </p>
         </div>

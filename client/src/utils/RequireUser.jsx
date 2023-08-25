@@ -1,6 +1,12 @@
 import React from "react";
 import { useCookies } from "react-cookie";
-import { Link, Navigate, Outlet, useLocation } from "react-router-dom";
+import {
+  Link,
+  Navigate,
+  Outlet,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import Sidebar from "../components/utils/Sidebar";
 import Suggestions from "../components/utils/Suggestions";
 import Navbar from "../components/Navbar";
@@ -13,6 +19,8 @@ import {
 import { FiLogOut } from "react-icons/fi";
 import { RiImageAddLine } from "react-icons/ri";
 import { useSelector } from "react-redux";
+import axios from "./axiosclient";
+import { toast } from "react-hot-toast";
 
 function RequireUser() {
   const token = localStorage.getItem("token");
@@ -20,6 +28,20 @@ function RequireUser() {
   const { user } = useSelector((state) => state.user);
   const { pathname } = useLocation();
   console.log("LOCATION", pathname);
+  const navigate = useNavigate();
+
+  async function logout() {
+    try {
+      const res = await axios.get("/auth/logout");
+      if (res.data.success) {
+        localStorage.removeItem("token");
+        navigate("/login");
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
+      console.log(error.message);
+    }
+  }
 
   return token ? (
     <>
@@ -100,7 +122,7 @@ function RequireUser() {
                 } `}
               />
             </Link>
-            <button>
+            <button onClick={logout}>
               <FiLogOut className="text-3xl text-primary-500" />
             </button>
           </div>

@@ -1,19 +1,36 @@
 import React from "react";
 import axios from "../utils/axiosclient";
 import { toast } from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { getMyProfile } from "../redux/slices/userSlice";
 
 function DeleteProjectModal({ show, hide, id }) {
-  const deletePost = async (postId) => {
+  const dispatch = useDispatch();
+
+  const deletePost = async () => {
     try {
-      const res = await axios.delete(`user/post/deletePost${postId}`);
+      console.log("DELETE", id);
+      const res = axios.delete(`user/post/deletePost/${id}`);
       console.log("object", res.data);
 
-      if (res.data.success) {
-        toast.success(res.data.message);
-        hide(false);
-      }
+      toast.promise(res, {
+        loading: "Deleting...",
+        success: (data) => {
+          hide(false);
+
+          return data.data.message;
+        },
+        error: (err) => {
+          return err.response.data.message;
+        },
+      });
+
+      // if (res.data.success) {
+      //   toast.success(res.data.message);
+      //   hide(false);
+      // }
     } catch (error) {
-      toast.error(error.response.data.message);
+      // toast.error(error.response.data.message);
       console.log(error);
     }
   };

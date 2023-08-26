@@ -46,9 +46,9 @@ function ProfileInfo({
     console.log("FOLLOW", isFollowedByCurrentUser);
   }, []);
   return (
-    <div className="text-white    md:w-full p-6 overflow-x-hidden">
+    <div className="text-white w-full      md:w-full p-6 overflow-x-hidden">
       {/* top profile section */}
-      <div className="flex w-full justify-between items-center p-2 gap-12 md:gap-0">
+      <div className="flex w-full justify-between items-center p-2  md:gap-0">
         <div className="flex items-center gap-3">
           <div>
             <Avatar round src={avatar} size="100" />
@@ -66,7 +66,7 @@ function ProfileInfo({
               navigate("/profile/edit");
             }}
           >
-            <p className="text-primary-500 font-bold text-xl">
+            <p className="text-primary-500 font-bold text-sm md:text-xl">
               <FiEdit />
             </p>
             <p className="font-bold text-sm md:text-[1.2rem]">Edit</p>

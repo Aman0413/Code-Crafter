@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { BiCommentDetail, BiMessageSquareDetail } from "react-icons/bi";
+import { BiMessageSquareDetail } from "react-icons/bi";
 import axios from "../utils/axiosclient";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,6 +19,7 @@ const ProjectCard = ({
   image,
   likes,
   comments,
+  ownerId,
 }) => {
   const { user } = useSelector((state) => state.user);
   const [showComments, setShowComments] = useState(false);
@@ -33,7 +34,8 @@ const ProjectCard = ({
   };
 
   const checkUserLikedOrNot = (id) => {
-    console.log("LIKEd", id);
+    console.log("LIKES", likes);
+    dispatch(getMyProfile());
     if (likes.includes(id)) {
       setIsLiked(true);
     } else {
@@ -51,29 +53,6 @@ const ProjectCard = ({
       dispatch(getMyProfile());
     } catch (error) {
       toast.error(error.response.data.message);
-    }
-  };
-
-  const deleteProject = async (id) => {
-    try {
-      const res = await axios.delete("user/post/postId", {
-        postId: id,
-      });
-
-      console.log("object", res.data);
-      dispatch(getMyProfile());
-      toast.promise(res, {
-        loading: "Deleting...",
-        success: (data) => {
-          return data.data.message;
-        },
-        error: (err) => {
-          return err.response.data.message;
-        },
-      });
-    } catch (error) {
-      toast.error(error.response.data.message);
-      console.log(error);
     }
   };
 
@@ -111,9 +90,9 @@ const ProjectCard = ({
     }
   };
 
-  useEffect(() => {
-    checkUserLikedOrNot(id);
-  }, [id, dispatch]);
+  // useEffect(() => {
+  //   checkUserLikedOrNot(id);
+  // }, [id]);
 
   return (
     <div className="bg-dark-2 rounded-lg shadow p-4 m-4 text-white md:w-96 w-full ">
@@ -127,8 +106,11 @@ const ProjectCard = ({
           <span className="font-bold">{owner}</span>
         </div>
 
-        {user?._id === id ? (
-          <button className="text-xl" onClick={() => setDeleteModal(true)}>
+        {user?._id === ownerId ? (
+          <button
+            className="text-xl text-white"
+            onClick={() => setDeleteModal(true)}
+          >
             <RiDeleteBin6Line />
           </button>
         ) : (

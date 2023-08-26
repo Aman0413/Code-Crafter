@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import axios from "../utils/axiosclient";
+import { CiUndo } from "react-icons/ci";
 
 function CreatePost() {
   const [postData, setPostData] = useState({
@@ -15,7 +16,6 @@ function CreatePost() {
         description: postData.description,
         image: postData.image,
       });
-      console.log(res);
 
       toast.promise(res, {
         loading: "Posting...",
@@ -84,7 +84,7 @@ function CreatePost() {
               id="name"
               className="p-3 rounded-lg bg-dark-2 outline-none focus:outline-gray-1 text-xl"
               onChange={(e) => {
-                setPostData({ ...postData, projectName: e.target.value });
+                setPostData({ ...postData, description: e.target.value });
               }}
             />
           </div>

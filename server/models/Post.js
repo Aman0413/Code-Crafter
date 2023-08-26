@@ -7,7 +7,6 @@ const postSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    trim: true, // remove whitespace
   },
   image: [
     {

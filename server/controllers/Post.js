@@ -74,6 +74,7 @@ exports.createPost = async (req, res) => {
 exports.deletePost = async (req, res) => {
   try {
     const { postId } = req.params;
+    console.log("DELETE", req.params);
 
     if (!postId) {
       return res.status(400).json({
@@ -137,7 +138,6 @@ exports.deletePost = async (req, res) => {
 exports.commentOnPost = async (req, res) => {
   try {
     const { postId, comment } = req.body;
-    console.log(req.body);
 
     if (!postId || !comment) {
       return res.status(400).json({
@@ -155,8 +155,6 @@ exports.commentOnPost = async (req, res) => {
       });
     }
 
-    console.log("Post", post);
-
     //find user
     const user = await User.findById(req.user.id);
     if (!user) {
@@ -166,7 +164,6 @@ exports.commentOnPost = async (req, res) => {
       });
     }
 
-    console.log("USER", user);
     //add comment to Post
     const newComment = await Comment.create({
       user: user._id,
@@ -205,8 +202,6 @@ exports.deleteComment = async (req, res) => {
     //get from param
     const { commentId } = req.params;
     const userId = req.user.id;
-
-    console.log("DELETE COMMENT", req.body);
 
     if (!commentId) {
       return res.status(400).json({

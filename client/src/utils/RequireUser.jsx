@@ -24,10 +24,10 @@ import { toast } from "react-hot-toast";
 
 function RequireUser() {
   const token = localStorage.getItem("token");
-  console.log("TOKEN", token);
+
   const { user } = useSelector((state) => state.user);
   const { pathname } = useLocation();
-  console.log("LOCATION", pathname);
+
   const navigate = useNavigate();
 
   async function logout() {

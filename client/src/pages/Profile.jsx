@@ -41,10 +41,10 @@ function Profile() {
   useEffect(() => {
     dispatch(getMyProfile());
     fetchUserProfile(id);
-  }, [id]);
+  }, [id, dispatch]);
 
   return (
-    <div className="bg-dark-1 text-white  w-full md:w-full h-full flex flex-col  items-center mb-20 md:mb-10 ">
+    <div className="bg-dark-1 text-white  w-screen md:w-full h-full flex flex-col  items-center  mb-20 md:mb-10 ">
       <LoadingBar
         color="#f11946"
         progress={progress}
@@ -67,7 +67,7 @@ function Profile() {
           )}
         />
       )}
-      <div className=" w-[80%] bg-dark-3 flex items-center justify-center rounded-md">
+      <div className=" w-[90%] bg-dark-3 flex items-center justify-center rounded-md">
         {userProfile && (
           <div className="w-[100%] text-white rounded-lg flex items-center justify-between md:h-24 h-16 ">
             <div
@@ -77,7 +77,7 @@ function Profile() {
               onClick={() => handleTabs("posts")}
             >
               <div
-                className={`text-sm md:text-xl  font-bold ${
+                className={`text-sm md:text-xl hidden md:block font-bold ${
                   showTabs === "posts" ? "text-dark-3" : "text-light-3"
                 }`}
               >
@@ -90,7 +90,7 @@ function Profile() {
                     : 0}
                 </p>
                 <p
-                  className={` font-medium text-sm md:text-xl ${
+                  className={` font-medium text-xs md:text-sm ${
                     showTabs === "posts" ? " text-dark-3" : "text-light-3"
                   }`}
                 >
@@ -105,7 +105,7 @@ function Profile() {
               onClick={() => handleTabs("followers")}
             >
               <div
-                className={`text-xl md:text-2xl  font-bold ${
+                className={`hidden md:block text-xl md:text-2xl  font-bold ${
                   showTabs === "followers" ? "text-dark-3" : "text-light-3"
                 }`}
               >
@@ -118,7 +118,7 @@ function Profile() {
                     : 0}
                 </p>
                 <p
-                  className={` font-medium text-sm md:text-xl ${
+                  className={` font-medium text-xs md:text-sm ${
                     showTabs === "followers" ? " text-dark-3" : "text-light-3"
                   }`}
                 >
@@ -133,7 +133,7 @@ function Profile() {
               onClick={() => handleTabs("followings")}
             >
               <div
-                className={`text-xl md:text-2xl   font-bold ${
+                className={`hidden md:block text-xl md:text-2xl   font-bold ${
                   showTabs === "followings" ? "text-dark-3" : "text-light-3"
                 }`}
               >
@@ -147,7 +147,7 @@ function Profile() {
                     : 0}
                 </p>
                 <p
-                  className={` font-medium text-sm md:text-xl ${
+                  className={` font-medium text-xs md:text-sm ${
                     showTabs === "followings" ? "text-dark-3" : "text-light-3"
                   }`}
                 >
@@ -158,7 +158,6 @@ function Profile() {
           </div>
         )}
       </div>
-
       <div
         className={` md:w-[60%]  flex flex-col justify-center items-center  p-6 gap-7 ${
           showTabs === "posts" ? "block" : "hidden"
@@ -178,6 +177,7 @@ function Profile() {
                     image={pr.image[0].url}
                     likes={pr.likes}
                     comments={pr.comments}
+                    ownerId={pr.owner}
                   />
                 );
               })}
@@ -185,7 +185,7 @@ function Profile() {
         ) : (
           <div>{userProfile && "There is no projects"}</div>
         )}
-      </div>
+      </div>{" "}
       <div
         className={`text-white mt-10 bg-dark-2 rounded-md p-6 overflow-y-scroll h-80 md:w-[80%] w-[90%] flex flex-col items-center gap-6 ${
           showTabs === "followings" ? "block" : "hidden"

@@ -121,6 +121,12 @@ function Login() {
               </div>
             </div>
 
+            <Link to={"/forgetPasswordLink"}>
+              <p className=" text-sm font-medium leading-5 text-primary-500">
+                Forget Password ?
+              </p>
+            </Link>
+
             <div className="mt-7">
               <span className="block w-full rounded-md shadow-sm">
                 <button

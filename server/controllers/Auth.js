@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const otpGenerator = require("otp-generator");
 const sendMail = require("../utils/sendMail");
+const resetPasswordTemplate = require("../mail/templates/ResetPassword");
 
 //send otp before for verification
 exports.sendOtp = async (req, res) => {
@@ -278,4 +279,127 @@ exports.changePassword = async (req, res) => {
 };
 
 //forget password post request
-exports.forgetPassword = async (req, res) => {};
+exports.sendForgetPasswordLink = async (req, res) => {
+  try {
+    //generate reset password token
+    const resetToken = jwt.sign(
+      { email: req.body.email },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "30m",
+      }
+    );
+
+    //send email
+    const resetPasswordLink = `${process.env.CLIENT_URL}/resetpassword/${resetToken}`;
+
+    //save reset password token in database
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "User does not exist",
+      });
+    }
+
+    user.forgetPasswordToken = resetToken;
+    user.forgetPasswordExpire = Date.now() + 30 * 60 * 1000;
+
+    await user.save();
+
+    const message = "<p>Please click the link to reset your password</p>";
+    const mailResponse = await sendMail(
+      req.body.email,
+      "Reset Password Link",
+      resetPasswordTemplate(resetPasswordLink)
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Reset Password Link sent successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Error in Sending Email",
+      error: error.message,
+    });
+  }
+};
+
+//reset password post request
+exports.resetPassword = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const { password } = req.body;
+
+    if (!password) {
+      return res.status(400).json({
+        success: false,
+        message: "Please fill all the fields",
+      });
+    }
+
+    //check if token exists
+    if (!token) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Token",
+      });
+    }
+
+    //verify token
+    const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+    if (!decoded) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Token",
+      });
+    }
+
+    //check if token is expired
+    const user = await User.findOne({ email: decoded.email });
+
+    //check both token
+    if (user.forgetPasswordToken !== token) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Token",
+      });
+    }
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "User does not exist",
+      });
+    }
+
+    if (user.forgetPasswordExpire < Date.now()) {
+      return res.status(400).json({
+        success: false,
+        message: "Token Expired",
+      });
+    }
+
+    //hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    //update password
+    user.password = hashedPassword;
+    user.forgetPasswordToken = null;
+    user.forgetPasswordExpire = null;
+
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Password Reset Successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Error in Resetting Password",
+      error: error.message,
+    });
+  }
+};

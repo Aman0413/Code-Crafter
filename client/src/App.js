@@ -13,6 +13,8 @@ import Profile from "./pages/Profile";
 import EditProfile from "./pages/EditProfile";
 import CreatePost from "./pages/CreatePost";
 import Activity from "./pages/Activity";
+import ForgetPasswordLink from "./components/ForgetPasswordLink";
+import ForgetPassoword from "./components/ForgetPassoword";
 
 function App() {
   return (
@@ -33,6 +35,8 @@ function App() {
           <Route path="verify-email" element={<VerifyEmail />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/forgetPasswordLink" element={<ForgetPasswordLink />} />
+          <Route path="/resetPassword/:token" element={<ForgetPassoword />} />
         </Route>
       </Routes>
     </div>

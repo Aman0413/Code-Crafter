@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getMyProfile } from "../redux/slices/userSlice";
 import ProjectCard from "../components/ProjectCard";
@@ -29,7 +29,6 @@ function Home() {
     <div className="md:w-full w-screen h-full bg-dark-1  text-white p-10 mb-20 md:mb-10">
       <div>
         <h2 className="font-bold text-3xl">Home</h2>
-
         <div className="w-full flex items-center justify-center my-6 border-b-2 border-gray-1 ">
           <div className="w-[650px] my-5 flex items-center  gap-4 overflow-x-scroll">
             {user && <Story id={user._id} />}

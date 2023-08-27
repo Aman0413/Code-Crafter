@@ -1,7 +1,8 @@
 import React from "react";
 import Avatar from "react-avatar";
+import { RiDeleteBinLine } from "react-icons/ri";
 
-function StoryShow({ show, hide, storyImage, userName, userAvatar }) {
+function StoryShow({ show, hide, storyImage, userName, userAvatar, id }) {
   if (!show) return null;
 
   return (
@@ -43,6 +44,7 @@ function StoryShow({ show, hide, storyImage, userName, userAvatar }) {
                 <Avatar src={userAvatar} round size="40" />
                 <p>{userName}</p>
               </div>
+              <RiDeleteBinLine />
             </div>
             <div className="w-[80%] h-[80%] rounded-lg ">
               <img

@@ -22,6 +22,12 @@ function Login() {
       setLoading(true);
       const res = await axios.post("/auth/login", loginData);
 
+      setTimeout(() => {
+        toast("Please wait it takes some time.!", {
+          icon: "⏲",
+        });
+      }, 6000);
+
       if (res.data.success) {
         localStorage.setItem("token", res.data.token);
         toast.success("Login successfull");

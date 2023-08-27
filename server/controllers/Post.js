@@ -74,7 +74,6 @@ exports.createPost = async (req, res) => {
 exports.deletePost = async (req, res) => {
   try {
     const { postId } = req.params;
-    console.log("DELETE", req.params);
 
     if (!postId) {
       return res.status(400).json({

@@ -15,6 +15,7 @@ import CreatePost from "./pages/CreatePost";
 import Activity from "./pages/Activity";
 import ForgetPasswordLink from "./components/ForgetPasswordLink";
 import ForgetPassoword from "./components/ForgetPassoword";
+import ChatBox from "./pages/ChatBox";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/profile/edit" element={<EditProfile />} />
           <Route path="/post-post" element={<CreatePost />} />
           <Route path="/activity" element={<Activity />} />
+          <Route path="/message/:id" element={<ChatBox />} />
         </Route>
 
         <Route element={<OnlyIfNotLogin />}>

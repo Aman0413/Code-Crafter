@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getMyProfile } from "../redux/slices/userSlice";
@@ -10,11 +10,13 @@ import { PiUsersThreeBold } from "react-icons/pi";
 import { GoFileMedia } from "react-icons/go";
 import ShowUser from "../components/utils/ShowUser";
 import LoadingBar from "react-top-loading-bar";
+import { io } from "socket.io-client";
 
 function Profile() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const { user } = useSelector((state) => state.user);
+  const socket = useRef();
 
   const [showTabs, setShowTabs] = useState("posts");
 

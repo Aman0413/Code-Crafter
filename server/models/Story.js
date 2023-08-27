@@ -5,6 +5,10 @@ const StorySchema = new mongoose.Schema({
     public_id: String,
     url: String,
   },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+  },
   createdAt: {
     type: Date,
     default: Date.now,

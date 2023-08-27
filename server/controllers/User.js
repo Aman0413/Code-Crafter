@@ -73,8 +73,6 @@ exports.updateUserProfile = async (req, res) => {
         });
       }
 
-      console.log("IMAGE", result);
-
       user.avatar.public_id = result.public_id;
       user.avatar.url = result.url;
     }
@@ -273,8 +271,6 @@ exports.getUserProfileById = async (req, res) => {
       })
       .exec();
 
-    console.log("USER", user);
-
     if (!user) {
       return res.status(400).json({
         success: false,
@@ -405,6 +401,7 @@ exports.createStory = async (req, res) => {
         public_id: result.public_id,
         url: result.url,
       },
+      owner: req.user.id,
     });
 
     //save story to user
@@ -425,41 +422,54 @@ exports.createStory = async (req, res) => {
   }
 };
 
-//user follow or not
-exports.userFollowOrNot = async (req, res) => {
+//delete story
+exports.deleteStory = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { storyId } = req.params;
 
-    if (!userId) {
+    if (!storyId) {
       return res.status(400).json({
         success: false,
-        message: "Please provide user id",
+        message: "Please provide story id",
       });
     }
 
-    const myProfile = await User.findById(req.user.id);
-    if (!myProfile) {
+    //find story
+    const story = await Story.findById(storyId);
+    if (!story) {
       return res.status(400).json({
         success: false,
-        message: "User not found",
+        message: "Story not found",
       });
     }
 
-    if (myProfile.followers.includes(userId)) {
-      return res.status(200).json({
-        success: true,
-        message: true,
-      });
-    } else {
-      return res.status(200).json({
-        success: true,
-        message: false,
+    //owner can delete story
+    if (story.owner.toString() !== req.user.id) {
+      return res.status(400).json({
+        success: false,
+        message: "You are not authorized to delete this story",
       });
     }
+
+    //delete story from cloudinary
+    await cloudinary.uploader.destroy(story.mediaUrl.public_id);
+
+    //delete story from user
+    const user = await User.findById(req.user.id);
+    user.story.pull(storyId);
+    await user.save();
+
+    //delete story
+    await story.deleteOne();
+
+    return res.status(200).json({
+      success: true,
+      message: "Story deleted successfully",
+    });
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: "Error in checking user follow or not",
+      message: "Error in deleting story",
       error: error.message,
     });
   }

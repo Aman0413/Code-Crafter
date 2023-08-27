@@ -26,7 +26,6 @@ function UploadStoryModal({ show, hide }) {
       const res = await axios.post("user/story/add", {
         image: storyData,
       });
-
       if (res.data.success) {
         toast.success(res.data.message);
         hide(false);

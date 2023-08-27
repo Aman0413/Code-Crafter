@@ -10,6 +10,8 @@ function EditProfile() {
   const { user } = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
   const [profileImg, setProfileImg] = useState();
+  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const dispatch = useDispatch();
 
   const [userDetails, setUserDetails] = useState({
@@ -58,6 +60,28 @@ function EditProfile() {
       setLoading(false);
     } catch (error) {
       setLoading(false);
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
+
+  const changePassword = async () => {
+    try {
+      const res = axios.post("auth/changePassword", {
+        oldPassword: password,
+        newPassword: newPassword,
+      });
+
+      toast.promise(res, {
+        loading: "Changing...",
+        success: (data) => {
+          return data.data.message;
+        },
+        error: (err) => {
+          return err.response.data.message;
+        },
+      });
+    } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
     }
@@ -138,6 +162,40 @@ function EditProfile() {
           {loading ? <Loader /> : "Update"}
         </button>
       </form>
+
+      <div className="mt-10 flex flex-col gap-5">
+        <h2 className="text-2xl font-bold my-4">Change Password</h2>
+        <div className="flex flex-col w-full gap-4 ">
+          <label htmlFor=" Old-Password" className="font-bold ">
+            Old Password
+          </label>
+          <input
+            type="text"
+            id="Old-Password"
+            className="w-full p-3 rounded-md bg-dark-3 border border-gray-1 focus:outline-none "
+            placeholder="Old Password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <div className="flex flex-col w-full gap-4 ">
+          <label htmlFor="new-password" className="font-bold ">
+            New Password
+          </label>
+          <input
+            type="text"
+            id="new-password"
+            className="w-full p-3 rounded-md bg-dark-3 border border-gray-1 focus:outline-none "
+            placeholder="New Password"
+            onChange={(e) => setNewPassword(e.target.value)}
+          />
+        </div>
+        <button
+          className="mt-5 bg-primary-500 rounded-md font-bold p-3 text-[1.1rem] active:scale-95 transition-all ease-in-out duration-200 "
+          onClick={changePassword}
+        >
+          Save
+        </button>
+      </div>
     </div>
   );
 }

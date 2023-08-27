@@ -54,7 +54,6 @@ exports.sendOtp = async (req, res) => {
       otp,
     });
 
-    console.log("OTP", otp);
     return res.status(200).json({
       success: true,
       message: "OTP sent successfully",
@@ -93,7 +92,6 @@ exports.signup = async (req, res) => {
     //check if otp exists
     const recentOtp = await OTP.find({ email }).sort({ createdAt: -1 });
 
-    console.log("req.body", req.body);
     if (recentOtp.length == 0) {
       return res.status(400).json({
         success: false,

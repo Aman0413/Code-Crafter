@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { updateSignupData } from "../redux/slices/signupData";
 import axios from "../utils/axiosclient";
 import toast from "react-hot-toast";
+
 import LoadingBar from "react-top-loading-bar";
 
 function Signup() {

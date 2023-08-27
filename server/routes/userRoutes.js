@@ -1,4 +1,5 @@
 const router = require("express").Router();
+
 const {
   getUserProfile,
   followAndUnfollowUser,
@@ -9,7 +10,7 @@ const {
   getUserSimilarMinds,
   getSuggestedUsers,
   createStory,
-  userFollowOrNot,
+  deleteStory,
 } = require("../controllers/User");
 const { isAuthenticate } = require("../middleware/authMiddleware");
 
@@ -22,6 +23,6 @@ router.get("/profile/:id", isAuthenticate, getUserProfileById);
 router.get("/profile/similarMinds", isAuthenticate, getUserSimilarMinds);
 router.get("/suggestedUser", isAuthenticate, getSuggestedUsers);
 router.post("/story/add", isAuthenticate, createStory);
-router.get("/checkFollowOrNot", isAuthenticate, userFollowOrNot);
+router.delete("/story/delete/:storyId", isAuthenticate, deleteStory);
 
 module.exports = router;

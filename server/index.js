@@ -11,6 +11,9 @@ const userRoutes = require("./routes/userRoutes");
 const postRoutes = require("./routes/postRoutes");
 const Story = require("./models/Story");
 const User = require("./models/User");
+const socket = require("socket.io");
+const { send } = require("process");
+const http = require("http").createServer(app);
 
 dotenv.config();
 const PORT = process.env.PORT || 4001;
@@ -39,6 +42,15 @@ app.listen(PORT, () => {
     console.log(`Error while running server ${error}`);
   }
 });
+
+//socket.io
+
+// const io = socket(http, {
+//   cors: {
+//     origin: "http://localhost:3000",
+//     credentials: true,
+//   },
+// });
 
 //connect to database
 connectDB();

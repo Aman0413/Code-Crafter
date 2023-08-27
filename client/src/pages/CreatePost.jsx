@@ -50,7 +50,7 @@ function CreatePost() {
   useEffect(() => {}, [postData]);
 
   return (
-    <div className="bg-dark-1 w-full h-full p-10 text-white mb-20 md:mb-10">
+    <div className="bg-dark-1 w-screen md:w-full h-full p-10 text-white mb-20 md:mb-10">
       <div className="text-white flex items-center justify-between">
         <h2 className="text-3xl font-bold text-left">Post</h2>
 

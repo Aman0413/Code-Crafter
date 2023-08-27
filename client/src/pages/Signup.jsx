@@ -24,7 +24,9 @@ function Signup() {
 
     try {
       const timer = setTimeout(() => {
-        toast.info("Signup is taking longer than usual...");
+        toast("Signup is taking longer than usual...", {
+          icon: "⏳",
+        });
       }, 6000);
 
       setProgress(30);

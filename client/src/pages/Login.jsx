@@ -20,13 +20,13 @@ function Login() {
 
     try {
       setLoading(true);
-
       const timer = setTimeout(() => {
-        toast.info("Login is taking longer than usual...");
+        toast("Login is taking longer than usual...", {
+          icon: "⏳",
+        });
       }, 6000);
       const res = await axios.post("/auth/login", loginData);
       clearTimeout(timer);
-
       if (res.data.success) {
         localStorage.setItem("token", res.data.token);
         toast.success("Login successfull");

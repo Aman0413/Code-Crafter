@@ -23,11 +23,17 @@ function Signup() {
     dispatch(updateSignupData(signupData));
 
     try {
+      const timer = setTimeout(() => {
+        toast.info("Signup is taking longer than usual...");
+      }, 6000);
+
       setProgress(30);
       setProgress(50);
       const res = await axios.post("auth/sendOtp", {
         email: signupData.email,
       });
+
+      clearTimeout(timer);
       if (res.data.success) {
         toast.success("OTP sent successfully");
         setProgress(100);

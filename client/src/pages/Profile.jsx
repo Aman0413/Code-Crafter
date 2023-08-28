@@ -162,32 +162,35 @@ function Profile() {
         className={` md:w-[60%]  flex flex-col justify-center items-center  p-6 gap-7 ${
           showTabs === "posts" ? "block" : "hidden"
         } `}
-      ></div>{" "}
-      <div className=" w-[70%] flex flex-col justify-center items-center ">
-        {userProfile?.posts?.length > 0 ? (
-          <>
-            {userProfile &&
-              userProfile.posts?.map((pr) => {
-                return (
-                  <ProjectCard
-                    key={pr._id}
-                    id={pr._id}
-                    owner={userProfile.name}
-                    avatar={userProfile.avatar?.url}
-                    description={pr.description}
-                    image={pr.image[0].url}
-                    likes={pr.likes}
-                    comments={pr.comments}
-                    ownerId={pr.owner}
-                    createdAt={pr.createdAt}
-                  />
-                );
-              })}
-          </>
-        ) : (
-          <div>{userProfile && "There is no projects"}</div>
-        )}
+      >
+        {" "}
+        <div className=" w-full flex flex-col justify-center items-center ">
+          {userProfile?.posts?.length > 0 ? (
+            <>
+              {userProfile &&
+                userProfile.posts?.map((pr) => {
+                  return (
+                    <ProjectCard
+                      key={pr._id}
+                      id={pr._id}
+                      owner={userProfile.name}
+                      avatar={userProfile.avatar?.url}
+                      description={pr.description}
+                      image={pr.image[0].url}
+                      likes={pr.likes}
+                      comments={pr.comments}
+                      ownerId={pr.owner}
+                      createdAt={pr.createdAt}
+                    />
+                  );
+                })}
+            </>
+          ) : (
+            <div>{userProfile && "There is no projects"}</div>
+          )}
+        </div>
       </div>
+
       <div
         className={`text-white mt-10 bg-dark-2 rounded-md p-6 overflow-y-scroll h-80 md:w-[80%] w-[90%] flex flex-col items-center gap-6 ${
           showTabs === "followings" ? "block" : "hidden"

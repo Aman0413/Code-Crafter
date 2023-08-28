@@ -11,6 +11,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import DeleteProjectModal from "./DeleteProjectModal";
 import { getMyProfile } from "../redux/slices/userSlice";
 import getTimeAgo from "../utils/getTimeAgo";
+import LoadingBar from "react-top-loading-bar";
 
 const ProjectCard = ({
   id,
@@ -33,15 +34,20 @@ const ProjectCard = ({
   const [likeLength, setLikeLength] = useState();
   const [allComments, setAllComments] = useState();
 
+  const [progress, setProgress] = useState(0);
+
   const toggleComments = () => {
     setShowComments(!showComments);
   };
 
   const checkLikeandComment = async () => {
     try {
+      setProgress(30);
       const res = await axios.post("user/post/checkLike", {
         postId: id,
       });
+      setProgress(50);
+      setProgress(100);
 
       setIsLiked(res.data.isLiked);
       setLikeLength(res.data.likeLength);
@@ -103,7 +109,12 @@ const ProjectCard = ({
     checkLikeandComment();
   }, []);
   return (
-    <div className="bg-dark-2 rounded-lg shadow p-4 m-4 text-white md:w-[500px] w-full ">
+    <div className="bg-dark-2 rounded-lg shadow p-4 m-4 text-white md:w-[500px] w-[calc(100vw-10vw)] ">
+      <LoadingBar
+        color="#f11946"
+        progress={progress}
+        onLoaderFinished={() => setProgress(0)}
+      />
       <div className="flex items-center justify-between">
         <div className="flex  items-center gap-2">
           <img

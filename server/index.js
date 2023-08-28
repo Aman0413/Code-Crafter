@@ -11,9 +11,7 @@ const userRoutes = require("./routes/userRoutes");
 const postRoutes = require("./routes/postRoutes");
 const Story = require("./models/Story");
 const User = require("./models/User");
-const socket = require("socket.io");
-const { send } = require("process");
-const http = require("http").createServer(app);
+const adminRoutes = require("./routes/adminRoutes");
 
 dotenv.config();
 const PORT = process.env.PORT || 4001;
@@ -79,6 +77,7 @@ app.use(express.json({ limit: "10mb" }));
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/user/post", postRoutes);
+app.use("/api/admin", adminRoutes);
 
 // Scheduled task to delete expired stories
 cron.schedule("0 0 * * *", async () => {

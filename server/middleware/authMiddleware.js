@@ -41,3 +41,22 @@ exports.isAuthenticate = async (req, res, next) => {
     });
   }
 };
+
+exports.isAdmin = async (req, res, next) => {
+  try {
+    if (req.user.role !== "admin") {
+      return res.status(401).json({
+        success: false,
+        message: "User not authorized to access this admin route",
+      });
+    }
+
+    next();
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Error in Authenticating User",
+      error: error.message,
+    });
+  }
+};

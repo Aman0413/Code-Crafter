@@ -253,3 +253,58 @@ exports.deleteComment = async (req, res) => {
     });
   }
 };
+
+//check user liked post
+exports.checkUserLikedPost = async (req, res) => {
+  try {
+    const { postId } = req.body;
+
+    if (!postId) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide Post id",
+      });
+    }
+
+    //find Post
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(400).json({
+        success: false,
+        message: "Post not found",
+      });
+    }
+
+    //find user
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    //check if user liked Post
+    const isLiked = post.likes.includes(user._id);
+
+    const comments = await Comment.find({ post: postId }).populate(
+      "user",
+      "avatar name username"
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Checked successfully",
+      isLiked: isLiked,
+      likeLength: post.likes.length,
+      comments,
+      commentLength: post.comments.length,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Error in checking like",
+      error: error.message,
+    });
+  }
+};

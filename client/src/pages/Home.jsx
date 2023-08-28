@@ -19,14 +19,10 @@ function Home() {
 
   useEffect(() => {
     dispatch(getMyProfile());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(getMyProfile());
   }, []);
 
   return (
-    <div className="md:w-full w-screen h-full bg-dark-1  text-white p-10 mb-20 md:mb-10">
+    <div className="md:w-full w-screen h-full bg-dark-1 text-white p-10 mb-20 md:mb-10">
       <div>
         <h2 className="font-bold text-3xl">Home</h2>
         <div className="w-full flex items-center justify-center my-6 border-b-2 border-gray-1 ">
@@ -71,7 +67,7 @@ function Home() {
           </div>
         </div>
 
-        <div className="mt-6   flex flex-col gap-8 items-center">
+        <div className=" w-full flex flex-col justify-center items-center ">
           {!user && <Loader />}
           {user &&
             user.followers.map((fol) => {
@@ -86,6 +82,7 @@ function Home() {
                     image={post.image[0]?.url}
                     likes={post.likes}
                     comments={post.comments}
+                    createdAt={post.createdAt}
                   />
                 );
               });

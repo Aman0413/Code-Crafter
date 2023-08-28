@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getMyProfile } from "../redux/slices/userSlice";
@@ -10,13 +10,11 @@ import { PiUsersThreeBold } from "react-icons/pi";
 import { GoFileMedia } from "react-icons/go";
 import ShowUser from "../components/utils/ShowUser";
 import LoadingBar from "react-top-loading-bar";
-import { io } from "socket.io-client";
 
 function Profile() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const { user } = useSelector((state) => state.user);
-  const socket = useRef();
 
   const [showTabs, setShowTabs] = useState("posts");
 
@@ -164,7 +162,8 @@ function Profile() {
         className={` md:w-[60%]  flex flex-col justify-center items-center  p-6 gap-7 ${
           showTabs === "posts" ? "block" : "hidden"
         } `}
-      >
+      ></div>{" "}
+      <div className=" w-[70%] flex flex-col justify-center items-center ">
         {userProfile?.posts?.length > 0 ? (
           <>
             {userProfile &&
@@ -180,6 +179,7 @@ function Profile() {
                     likes={pr.likes}
                     comments={pr.comments}
                     ownerId={pr.owner}
+                    createdAt={pr.createdAt}
                   />
                 );
               })}
@@ -187,7 +187,7 @@ function Profile() {
         ) : (
           <div>{userProfile && "There is no projects"}</div>
         )}
-      </div>{" "}
+      </div>
       <div
         className={`text-white mt-10 bg-dark-2 rounded-md p-6 overflow-y-scroll h-80 md:w-[80%] w-[90%] flex flex-col items-center gap-6 ${
           showTabs === "followings" ? "block" : "hidden"

@@ -158,7 +158,7 @@ function EditProfile() {
             }}
           />
         </div>
-        <button className="bg-primary-500 rounded-md font-bold p-3 text-[1.1rem] active:scale-95 transition-all ease-in-out duration-200 ">
+        <button className="bg-primary-500 text-center rounded-md font-bold p-3 text-[1.1rem] active:scale-95 transition-all ease-in-out duration-200 ">
           {loading ? <Loader /> : "Update"}
         </button>
       </form>

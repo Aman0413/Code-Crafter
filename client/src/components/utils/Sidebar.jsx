@@ -10,19 +10,17 @@ import {
 import { RiImageAddLine } from "react-icons/ri";
 import { FaUserFriends } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "../../utils/axiosclient";
 import { toast } from "react-hot-toast";
+import { getMyProfile } from "../../redux/slices/userSlice";
 
 function Sidebar() {
   const navigate = useNavigate();
   const [active, setActive] = useState(false);
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
-
-  useEffect(() => {
-    setActive(true);
-  }, [user]);
 
   async function logout() {
     try {
@@ -36,6 +34,15 @@ function Sidebar() {
       console.log(error.message);
     }
   }
+
+  useEffect(() => {
+    setActive(true);
+  }, [user]);
+
+  useEffect(() => {
+    dispatch(getMyProfile());
+  }, []);
+
   return (
     <div
       className={` hidden bg-dark-2 w-[18%] h-[100vh]  text-white md:flex flex-col justify-around items-center md:text-[1.2rem] sticky top-0 right-0 overflow-y-scroll transition-all ease-in-out  duration-300 font-medium  ${
@@ -81,6 +88,20 @@ function Sidebar() {
         </div>
       </Link>
 
+      {user && user.role === "admin" && (
+        <Link
+          to="/AllUsers"
+          className="flex items-center hover:bg-primary-500 w-[75%] justify-start gap-4 rounded-lg h-16 px-2 transition-all ease-in-out duration-300 hover:translate-x-2"
+        >
+          <div className="flex items-center w-[75%] justify-start gap-4 rounded-lg h-16 px-2 transition-all ease-in-out duration-300">
+            <div>
+              <FaUserFriends className="text-2xl" />
+            </div>
+            <div className={`${active ? "" : "hidden"}`}>All Users</div>
+          </div>
+        </Link>
+      )}
+
       <Link
         to="/activity"
         className="flex items-center hover:bg-primary-500 w-[75%] justify-start gap-4 rounded-lg h-16 px-2 transition-all ease-in-out duration-300 hover:translate-x-2"
@@ -104,18 +125,6 @@ function Sidebar() {
           <div className={`${active ? "" : "hidden"}`}>Post</div>
         </div>
       </Link>
-
-      {/* <Link
-        to="/community"
-        className="flex items-center hover:bg-primary-500 w-[75%] justify-start gap-4 rounded-lg h-16 px-2 transition-all ease-in-out duration-300 hover:translate-x-2"
-      >
-        <div className="flex items-center w-[75%] justify-start gap-4 rounded-lg h-16 px-2 transition-all ease-in-out duration-300">
-          <div>
-            <FaUserFriends className="text-2xl" />
-          </div>
-          <div className={`${active ? "" : "hidden"}`}>Community</div>
-        </div>
-      </Link> */}
 
       <Link
         to={`/profile/${user?._id}`}

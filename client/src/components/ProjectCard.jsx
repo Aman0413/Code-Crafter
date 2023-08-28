@@ -10,6 +10,7 @@ import Loader from "./utils/Loader";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import DeleteProjectModal from "./DeleteProjectModal";
 import { getMyProfile } from "../redux/slices/userSlice";
+import getTimeAgo from "../utils/getTimeAgo";
 
 const ProjectCard = ({
   id,
@@ -20,6 +21,7 @@ const ProjectCard = ({
   likes,
   comments,
   ownerId,
+  createdAt,
 }) => {
   const { user } = useSelector((state) => state.user);
   const [showComments, setShowComments] = useState(false);
@@ -27,19 +29,26 @@ const ProjectCard = ({
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [deleteModal, setDeleteModal] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState();
+  const [likeLength, setLikeLength] = useState();
+  const [allComments, setAllComments] = useState();
 
   const toggleComments = () => {
     setShowComments(!showComments);
   };
 
-  const checkUserLikedOrNot = (id) => {
-    console.log("LIKES", likes);
-    dispatch(getMyProfile());
-    if (likes.includes(id)) {
-      setIsLiked(true);
-    } else {
-      setIsLiked(false);
+  const checkLikeandComment = async () => {
+    try {
+      const res = await axios.post("user/post/checkLike", {
+        postId: id,
+      });
+
+      setIsLiked(res.data.isLiked);
+      setLikeLength(res.data.likeLength);
+      setAllComments(res.data.comments);
+    } catch (error) {
+      toast.error(error.response.data.message);
+      console.log(error);
     }
   };
 
@@ -49,8 +58,7 @@ const ProjectCard = ({
         postId: id,
       });
 
-      console.log("object", res.data);
-      dispatch(getMyProfile());
+      checkLikeandComment();
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -65,7 +73,7 @@ const ProjectCard = ({
       });
 
       setLoading(false);
-      dispatch(getMyProfile());
+      checkLikeandComment();
       toast.success(res.data?.message);
       setComment("");
     } catch (error) {
@@ -83,6 +91,7 @@ const ProjectCard = ({
 
       toast.success(res.data.message);
       setLoading(false);
+      checkLikeandComment();
     } catch (error) {
       toast.error(error.response.data.message);
       console.log(error);
@@ -90,12 +99,11 @@ const ProjectCard = ({
     }
   };
 
-  // useEffect(() => {
-  //   checkUserLikedOrNot(id);
-  // }, [id]);
-
+  useEffect(() => {
+    checkLikeandComment();
+  }, []);
   return (
-    <div className="bg-dark-2 rounded-lg shadow p-4 m-4 text-white md:w-96 w-full ">
+    <div className="bg-dark-2 rounded-lg shadow p-4 m-4 text-white md:w-[500px] w-full ">
       <div className="flex items-center justify-between">
         <div className="flex  items-center gap-2">
           <img
@@ -118,11 +126,11 @@ const ProjectCard = ({
         )}
       </div>
 
-      <div className="py-5">
+      <div className="py-3 md:py-5">
         <p className="font-bold">{description}</p>
       </div>
-      <p className="mt-2">
-        <img src={image} alt="" className="rounded-md" />
+      <p className="mt-2 w-full">
+        <img src={image} alt="" className="rounded-md w-full" />
       </p>
       <div className="flex items-center mt-4 gap-6">
         <button
@@ -137,30 +145,30 @@ const ProjectCard = ({
             <AiOutlineHeart className=" text-2xl md:text-3xl active:scale-95" />
           )}
 
-          <p className="text-sm md:text-base">{likes?.length} likes</p>
+          <p className="text-sm md:text-base">{likeLength} likes</p>
         </button>
         <div
           className="flex items-center cursor-pointer gap-2"
           onClick={toggleComments}
         >
           <BiMessageSquareDetail className="text-xl md:text-3xl " />
-
-          <p className="hidden md:block">
-            Comments {comments?.length <= 0 ? 0 : comments?.length}
-          </p>
         </div>
       </div>
+
+      <div className="flex items-start mt-2 pl-1 text-gray-1 text-sm ">
+        {getTimeAgo(createdAt)}
+      </div>
+
       {showComments && (
         <div className="bg-dark-1 p-3 rounded-md mt-4 h-48 flex flex-col  transition-all ease-in-out duration-200 justify-between">
           {/* Comment section */}
 
           <div className="overflow-y-scroll flex flex-col items-start gap-6 ">
-            {comments && comments.length === 0 && (
+            {allComments && comments.length === 0 && (
               <p className="text-gray-1">No Comments Yet</p>
             )}
-            {comments &&
-              comments.length > 0 &&
-              comments.map((item) => {
+            {allComments.length > 0 &&
+              allComments.map((item) => {
                 return (
                   <div
                     className=" flex items-center justify-between w-[95%] mt-5"

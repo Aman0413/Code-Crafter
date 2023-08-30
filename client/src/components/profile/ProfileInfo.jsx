@@ -46,8 +46,8 @@ function ProfileInfo({
       {/* top profile section */}
       <div className="flex w-full justify-between items-center p-2  md:gap-0">
         <div className="flex items-center gap-3">
-          <div>
-            <Avatar round src={avatar} size="100" />
+          <div className="md:w-32 w-20 rounded-full bg-red-500">
+            <img src={avatar} alt={name} className="w-full rounded-full" />
           </div>
           <div>
             <p className="md:text-2xl font-extrabold">{name}</p>
@@ -57,7 +57,7 @@ function ProfileInfo({
 
         {user?._id === id ? (
           <button
-            className="flex justify-center items-center bg-dark-3 h-11 w-24 md:w-28 px-2 py-2 rounded-lg gap-3 font-bold "
+            className="flex justify-center items-center bg-dark-3 h-6 md:h-11 w-20 md:w-28 px-2 py-2 rounded-lg gap-3 font-bold "
             onClick={() => {
               navigate("/profile/edit");
             }}
@@ -69,7 +69,7 @@ function ProfileInfo({
           </button>
         ) : (
           <button
-            className={`flex justify-center items-center  h-11 w-28 px-2 py-2 rounded-lg gap-3 font-bold   ${
+            className={`flex justify-center items-center h-8 md:h-11 w-20 md:w-28 px-2 py-2 rounded-lg gap-4 font-bold text-sm md:text-base   ${
               isFollowedByCurrentUser
                 ? "bg-dark-3 text-primary-500"
                 : "bg-primary-500 text-white"

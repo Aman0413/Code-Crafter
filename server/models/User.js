@@ -9,13 +9,20 @@ const UserSchema = new mongoose.Schema({
   username: {
     type: String,
   },
-  story: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "story",
-      default: [],
+  story: {
+    mediaUrl: {
+      public_id: String,
+      url: String,
     },
-  ],
+    createdAt: {
+      type: Date,
+      default: undefined,
+    },
+    expiresAt: {
+      type: Date,
+      default: undefined,
+    },
+  },
   email: {
     type: String,
     required: true,

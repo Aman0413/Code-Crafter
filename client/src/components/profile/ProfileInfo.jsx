@@ -42,7 +42,7 @@ function ProfileInfo({
   };
 
   return (
-    <div className="text-white w-full      md:w-full p-6 overflow-x-hidden">
+    <div className="text-white w-full md:w-full p-6 overflow-x-hidden">
       {/* top profile section */}
       <div className="flex w-full justify-between items-center p-2  md:gap-0">
         <div className="flex items-center gap-3">
@@ -57,7 +57,7 @@ function ProfileInfo({
 
         {user?._id === id ? (
           <button
-            className="flex justify-center items-center bg-dark-3 h-6 md:h-11 w-20 md:w-28 px-2 py-2 rounded-lg gap-3 font-bold "
+            className="flex justify-center items-center bg-dark-3 h-9 md:h-11 w-20 md:w-28 px-2 py-2 rounded-lg gap-3 font-bold "
             onClick={() => {
               navigate("/profile/edit");
             }}

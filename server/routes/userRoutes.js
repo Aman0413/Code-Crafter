@@ -23,6 +23,6 @@ router.get("/profile/:id", isAuthenticate, getUserProfileById);
 router.get("/profile/similarMinds", isAuthenticate, getUserSimilarMinds);
 router.get("/suggestedUser", isAuthenticate, getSuggestedUsers);
 router.post("/story/add", isAuthenticate, createStory);
-router.delete("/story/delete/:storyId", isAuthenticate, deleteStory);
+router.delete("/story/delete", isAuthenticate, deleteStory);
 
 module.exports = router;

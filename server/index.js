@@ -9,7 +9,7 @@ const connectDB = require("./config/dbConfig");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const postRoutes = require("./routes/postRoutes");
-const Story = require("./models/Story");
+
 const User = require("./models/User");
 const adminRoutes = require("./routes/adminRoutes");
 
@@ -80,34 +80,34 @@ app.use("/api/user/post", postRoutes);
 app.use("/api/admin", adminRoutes);
 
 // Scheduled task to delete expired stories
-cron.schedule("0 0 * * *", async () => {
-  try {
-    const currentTime = new Date();
+// cron.schedule("0 0 * * *", async () => {
+//   try {
+//     const currentTime = new Date();
 
-    // Find and delete expired stories
-    const expiredStories = await Story.find({
-      expiresAt: { $lt: currentTime },
-    });
-    await Story.deleteMany({ expiresAt: { $lt: currentTime } });
+//     // Find and delete expired stories
+//     const expiredStories = await Story.find({
+//       expiresAt: { $lt: currentTime },
+//     });
+//     await Story.deleteMany({ expiresAt: { $lt: currentTime } });
 
-    // Get the IDs of expired stories
-    const expiredStoryIds = expiredStories.map((story) => story._id);
+//     // Get the IDs of expired stories
+//     const expiredStoryIds = expiredStories.map((story) => story._id);
 
-    // Remove expired story IDs from users
-    await User.updateMany(
-      { story: { $in: expiredStoryIds } },
-      { $pull: { story: { $in: expiredStoryIds } } }
-    );
+//     // Remove expired story IDs from users
+//     await User.updateMany(
+//       { story: { $in: expiredStoryIds } },
+//       { $pull: { story: { $in: expiredStoryIds } } }
+//     );
 
-    // Delete images from Cloudinary
-    for (const expiredStory of expiredStories) {
-      await cloudinary.uploader.destroy(expiredStory.mediaUrl.public_id);
-    }
+//     // Delete images from Cloudinary
+//     for (const expiredStory of expiredStories) {
+//       await cloudinary.uploader.destroy(expiredStory.mediaUrl.public_id);
+//     }
 
-    console.log(
-      "Expired stories, references, and images deleted from Cloudinary."
-    );
-  } catch (error) {
-    console.error("Error deleting expired stories:", error);
-  }
-});
+//     console.log(
+//       "Expired stories, references, and images deleted from Cloudinary."
+//     );
+//   } catch (error) {
+//     console.error("Error deleting expired stories:", error);
+//   }
+// });

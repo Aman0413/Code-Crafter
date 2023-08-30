@@ -44,17 +44,17 @@ function Signup() {
         toast("Signup is taking longer than usual...", {
           icon: "⏳",
         });
-      }, 12000);
+      }, 15000);
       const timer2 = setTimeout(() => {
         toast("Please wait...", {
           icon: "😁",
         });
-      }, 22000);
+      }, 25000);
       const timer3 = setTimeout(() => {
         toast("We know you are in hurry...", {
           icon: "♥️",
         });
-      }, 37000);
+      }, 40000);
 
       setProgress(30);
       setProgress(50);

@@ -1,9 +1,9 @@
 const { default: mongoose } = require("mongoose");
 const Post = require("../models/Post");
 const User = require("../models/User");
-const Story = require("../models/Story");
 const Comment = require("../models/Comment");
 const { uploadImageToCloudinary } = require("../utils/uploadImage");
+const cloudinary = require("cloudinary");
 
 //get user profile
 exports.getUserProfile = async (req, res) => {
@@ -25,10 +25,6 @@ exports.getUserProfile = async (req, res) => {
                 model: User, // Replace 'User' with the actual model name for users
               },
             },
-          },
-          {
-            path: "story", // Populate followers' stories
-            model: Story, // Replace 'Story' with the actual model name for stories
           },
         ],
       })
@@ -378,14 +374,6 @@ exports.createStory = async (req, res) => {
       });
     }
 
-    //you can add only one story
-    if (user.story.length > 0) {
-      return res.status(400).json({
-        success: false,
-        message: "You can add only one story",
-      });
-    }
-
     //upload image to cloudinary
     const result = await uploadImageToCloudinary(image);
     if (!result) {
@@ -396,17 +384,15 @@ exports.createStory = async (req, res) => {
     }
 
     //create story
-    const story = await Story.create({
-      mediaUrl: {
-        public_id: result.public_id,
-        url: result.url,
-      },
-      owner: req.user.id,
-    });
+    user.story.mediaUrl.public_id = result.public_id;
+    user.story.mediaUrl.url = result.url;
 
-    //save story to user
-
-    user.story.push(story._id);
+    //set story creation time
+    const currentTime = new Date();
+    user.story.createdAt = currentTime;
+    //set story expiry time
+    const expiresAt = new Date(currentTime.getTime() + 24 * 60 * 60 * 1000);
+    user.story.expiresAt = expiresAt;
     await user.save();
 
     return res.status(200).json({
@@ -425,42 +411,24 @@ exports.createStory = async (req, res) => {
 //delete story
 exports.deleteStory = async (req, res) => {
   try {
-    const { storyId } = req.params;
-
-    if (!storyId) {
+    const user = await User.findById(req.user.id);
+    if (!user) {
       return res.status(400).json({
         success: false,
-        message: "Please provide story id",
-      });
-    }
-
-    //find story
-    const story = await Story.findById(storyId);
-    if (!story) {
-      return res.status(400).json({
-        success: false,
-        message: "Story not found",
-      });
-    }
-
-    //owner can delete story
-    if (story.owner.toString() !== req.user.id) {
-      return res.status(400).json({
-        success: false,
-        message: "You are not authorized to delete this story",
+        message: "User not found",
       });
     }
 
     //delete story from cloudinary
-    await cloudinary.uploader.destroy(story.mediaUrl.public_id);
+    await cloudinary.v2.uploader.destroy(user.story.mediaUrl.public_id);
 
-    //delete story from user
-    const user = await User.findById(req.user.id);
-    user.story.pull(storyId);
+    //delete story from db
+    user.story.mediaUrl.public_id = "";
+    user.story.mediaUrl.url = "";
+    user.story.createdAt = "";
+    user.story.expiresAt = "";
+
     await user.save();
-
-    //delete story
-    await story.deleteOne();
 
     return res.status(200).json({
       success: true,
@@ -474,4 +442,3 @@ exports.deleteStory = async (req, res) => {
     });
   }
 };
-

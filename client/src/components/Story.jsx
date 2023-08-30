@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import StoryShow from "./StoryShow";
 import { useSelector } from "react-redux";
 import UploadStoryModal from "./UploadStoryModal";
@@ -8,6 +8,7 @@ function Story({ image, name, storyImage, userName, userAvatar, id }) {
   const [uploadStoryModal, setUploadStoryModal] = useState(false);
 
   const [showStory, setShowStory] = useState(false);
+
   return (
     <>
       <li class="flex flex-col items-center space-y-1 relative">
@@ -25,7 +26,7 @@ function Story({ image, name, storyImage, userName, userAvatar, id }) {
           </a>
         </div>
         {user?._id === id ? (
-          <div>
+          <div className={`${storyImage ? "hidden" : "block"}`}>
             <button
               class="absolute bottom-8 right-1 bg-primary-500 rounded-full h-8 w-8 text-2xl
         text-white font-semibold border-2

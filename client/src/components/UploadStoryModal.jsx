@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import axios from "../utils/axiosclient";
 import Loader from "./utils/Loader";
+import { getMyProfile } from "../redux/slices/userSlice";
+import { useDispatch } from "react-redux";
 
 function UploadStoryModal({ show, hide }) {
   const [storyData, setStoryData] = useState();
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+
   if (!show) return null;
 
   const handleImageChange = (e) => {
@@ -28,6 +32,7 @@ function UploadStoryModal({ show, hide }) {
       });
       if (res.data.success) {
         toast.success(res.data.message);
+        dispatch(getMyProfile());
         hide(false);
       }
       setLoading(false);

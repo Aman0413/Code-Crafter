@@ -442,3 +442,57 @@ exports.deleteStory = async (req, res) => {
     });
   }
 };
+
+//delete user
+exports.deleteUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    //delete user's all posts
+    await Post.deleteMany({ owner: req.user.id });
+
+    //delete user comments from db
+    await Comment.deleteMany({ user: req.user.id });
+
+    //remove user from followers list
+    user.followers.forEach(async (follower) => {
+      const userFollower = await User.findById(follower);
+      userFollower.followings.pull(req.user.id);
+      await userFollower.save();
+    });
+
+    //remove user from followings list
+    user.followings.forEach(async (following) => {
+      const userFollowing = await User.findById(following);
+      userFollowing.followers.pull(req.user.id);
+      await userFollowing.save();
+    });
+
+    //delete user from db
+    await User.findByIdAndDelete(req.user.id);
+
+    //logout user
+    res.clearCookie("token", {
+      httpOnly: true,
+      expires: new Date(0),
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "User deleted successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Error in deleting user",
+      error: error.message,
+    });
+  }
+};

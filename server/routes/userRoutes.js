@@ -11,6 +11,7 @@ const {
   getSuggestedUsers,
   createStory,
   deleteStory,
+  deleteUser,
 } = require("../controllers/User");
 const { isAuthenticate } = require("../middleware/authMiddleware");
 
@@ -24,5 +25,6 @@ router.get("/profile/similarMinds", isAuthenticate, getUserSimilarMinds);
 router.get("/suggestedUser", isAuthenticate, getSuggestedUsers);
 router.post("/story/add", isAuthenticate, createStory);
 router.delete("/story/delete", isAuthenticate, deleteStory);
+router.delete("/deleteMyAccount", isAuthenticate, deleteUser);
 
 module.exports = router;

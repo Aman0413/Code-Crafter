@@ -177,7 +177,7 @@ function Profile() {
                       owner={userProfile.name}
                       avatar={userProfile.avatar?.url}
                       description={pr.description}
-                      image={pr.image[0].url}
+                      image={pr.image?.url}
                       likes={pr.likes}
                       comments={pr.comments}
                       ownerId={pr.owner}

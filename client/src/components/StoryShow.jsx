@@ -55,7 +55,7 @@ function StoryShow({ show, hide, storyImage, userName, userAvatar, id }) {
           role="alert"
           className="container mx-auto w-11/12 md:w-2/3 max-w-lg"
         >
-          <div className="relative py-8 px-5 md:px-10 bg-dark-3 shadow-md rounded border border-gray-1 rounded-lg">
+          <div className="relative py-8 px-5 md:px-10 bg-dark-3 shadow-md  border border-gray-1 rounded-lg">
             <ProgressBar
               completed={progress}
               bgColor={"#877EFF"}

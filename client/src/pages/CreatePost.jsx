@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import axios from "../utils/axiosclient";
 import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function CreatePost() {
+  const navigate = useNavigate();
   const [postData, setPostData] = useState({
     description: "",
     image: "",
@@ -20,6 +23,7 @@ function CreatePost() {
       toast.promise(res, {
         loading: "Posting...",
         success: (data) => {
+          navigate("/");
           return data.data.message;
         },
         error: (err) => {

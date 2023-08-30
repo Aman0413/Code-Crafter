@@ -8,12 +8,10 @@ const postSchema = new mongoose.Schema({
   description: {
     type: String,
   },
-  image: [
-    {
-      public_id: String,
-      url: String,
-    },
-  ],
+  image: {
+    public_id: String,
+    url: String,
+  },
   likes: [
     {
       type: mongoose.Schema.Types.ObjectId,

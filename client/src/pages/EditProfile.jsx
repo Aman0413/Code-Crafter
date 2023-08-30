@@ -5,6 +5,7 @@ import MyAvatar from "../components/utils/MyAvatar";
 import { toast } from "react-hot-toast";
 import axios from "../utils/axiosclient";
 import Loader from "../components/utils/Loader";
+import DeleteAccountModal from "../components/DeleteAccountModal";
 
 function EditProfile() {
   const { user } = useSelector((state) => state.user);
@@ -12,6 +13,7 @@ function EditProfile() {
   const [profileImg, setProfileImg] = useState();
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const dispatch = useDispatch();
 
   const [userDetails, setUserDetails] = useState({
@@ -196,6 +198,17 @@ function EditProfile() {
           Save
         </button>
       </div>
+
+      <div className="mt-32">
+        <h3 className="text-2xl font-bold my-4">Danger</h3>
+        <button className="mt-5 bg-red-600 rounded-md font-bold p-3 text-[1.1rem] w-full active:scale-95 transition-all ease-in-out duration-200 " onClick={()=>setShowDeleteModal(true)}>
+          Delete My Account
+        </button>
+      </div>
+
+      {showDeleteModal && (
+        <DeleteAccountModal show={showDeleteModal} hide={setShowDeleteModal} />
+      )}
     </div>
   );
 }

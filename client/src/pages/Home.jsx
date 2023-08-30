@@ -98,7 +98,7 @@ function Home() {
                     owner={fol.name}
                     avatar={fol.avatar?.url}
                     description={post.description}
-                    image={post.image[0]?.url}
+                    image={post.image?.url}
                     likes={post.likes}
                     comments={post.comments}
                     createdAt={post.createdAt}

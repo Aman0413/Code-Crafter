@@ -4,6 +4,7 @@ import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
 import { RxCountdownTimer } from "react-icons/rx";
+import { motion } from "framer-motion";
 
 function ForgetPasswordLink() {
   const [buttonDisabled, setButtonDisabled] = useState(false);
@@ -36,7 +37,14 @@ function ForgetPasswordLink() {
   };
 
   return (
-    <div className="text-white flex flex-col items-center justify-center w-full h-screen ">
+    <motion.div
+      className="text-white flex flex-col items-center justify-center w-full h-screen "
+      key="forgetpasswordlink"
+      initial={{ x: "-100%", opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      exit={{ x: "100%", opacity: 0 }}
+      transition={{ duration: 0.4 }}
+    >
       <div className=" flex flex-col gap-5">
         <h1 className="font-bold text-2xl">Forget Password</h1>
         <p className="text-gray-1">
@@ -64,7 +72,7 @@ function ForgetPasswordLink() {
           </Link>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

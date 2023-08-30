@@ -13,6 +13,7 @@ import { getMyProfile } from "../redux/slices/userSlice";
 import getTimeAgo from "../utils/getTimeAgo";
 import LoadingBar from "react-top-loading-bar";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const ProjectCard = ({
   id,
@@ -24,6 +25,7 @@ const ProjectCard = ({
   comments,
   ownerId,
   createdAt,
+  controls,
 }) => {
   const { user } = useSelector((state) => state.user);
   const [showComments, setShowComments] = useState(false);

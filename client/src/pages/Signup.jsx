@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { updateSignupData } from "../redux/slices/signupData";
 import axios from "../utils/axiosclient";
 import toast from "react-hot-toast";
-
+import { motion } from "framer-motion";
 import LoadingBar from "react-top-loading-bar";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
@@ -79,12 +79,20 @@ function Signup() {
   };
 
   return (
-    <div className="min-h-screen bg-dark-4 flex flex-col justify-center py-12 sm:px-6 lg:px-8 px-6 ">
+    <motion.div
+      className="min-h-screen bg-dark-4 flex flex-col justify-center py-12 sm:px-6 lg:px-8 px-6 "
+      key="signup"
+      initial={{ x: "-100%", opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      exit={{ x: "100%", opacity: 0 }}
+      transition={{ duration: 0.4 }}
+    >
       <LoadingBar
         color="#f11946"
         progress={progress}
         onLoaderFinished={() => setProgress(0)}
       />
+
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className=" flex justify-center items-center ">
           <svg
@@ -391,7 +399,10 @@ function Signup() {
                   type={showPassword ? "text" : "password"}
                   name="password"
                   onChange={(e) => {
-                    setSignupData({ ...signupData, password: e.target.value });
+                    setSignupData({
+                      ...signupData,
+                      password: e.target.value,
+                    });
                   }}
                   placeholder=" Password"
                   className="appearance-none bg-dark-3 block w-full px-3 py-4  rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5 focus:border-2 border-light-3 placeholder:text-light-4"
@@ -454,7 +465,7 @@ function Signup() {
           </form>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

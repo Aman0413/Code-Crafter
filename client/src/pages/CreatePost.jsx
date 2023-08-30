@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import axios from "../utils/axiosclient";
-import { CiUndo } from "react-icons/ci";
+import { motion } from "framer-motion";
 
 function CreatePost() {
   const [postData, setPostData] = useState({
@@ -50,7 +50,14 @@ function CreatePost() {
   useEffect(() => {}, [postData]);
 
   return (
-    <div className="bg-dark-1 w-screen md:w-full h-full p-10 text-white mb-20 md:mb-10">
+    <motion.div
+      className="bg-dark-1 w-screen md:w-full h-full p-10 text-white mb-20 md:mb-10"
+      key="create-post"
+      initial={{ y: "-100%", opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: "100%", opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
       <div className="text-white flex items-center justify-between">
         <h2 className="text-3xl font-bold text-left">Post</h2>
 
@@ -119,7 +126,7 @@ function CreatePost() {
           </button>
         </form>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

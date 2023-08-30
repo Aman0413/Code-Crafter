@@ -6,6 +6,7 @@ import Story from "../components/Story";
 import ShowUser from "../components/utils/ShowUser";
 import axios from "../utils/axiosclient";
 import { toast } from "react-hot-toast";
+import { motion } from "framer-motion";
 
 function Home() {
   const dispatch = useDispatch();
@@ -23,7 +24,6 @@ function Home() {
   const suggestUser = async () => {
     try {
       const res = await axios.get("user/suggestedUser");
-      console.log(res.data.data);
       setSuggestedUser(res.data.data);
     } catch (error) {
       console.log(error);
@@ -42,7 +42,14 @@ function Home() {
   }, [user]);
 
   return (
-    <div className="md:w-full w-screen h-full bg-dark-1 text-white p-10 mb-20 md:mb-10">
+    <motion.div
+      className="md:w-full w-screen h-full bg-dark-1 text-white p-10 mb-20 md:mb-10"
+      key="home"
+      initial={{ y: "-100%", opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: "100%", opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
       <div>
         <h2 className="font-bold text-3xl">Home</h2>
         <div className="w-full flex items-center justify-center my-6 border-b-2 border-gray-1 ">
@@ -127,7 +134,7 @@ function Home() {
           </div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }
 

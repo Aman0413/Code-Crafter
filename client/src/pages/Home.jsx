@@ -1,12 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getMyProfile } from "../redux/slices/userSlice";
 import ProjectCard from "../components/ProjectCard";
-import Loader from "../components/utils/Loader";
 import Story from "../components/Story";
+import ShowUser from "../components/utils/ShowUser";
+import axios from "../utils/axiosclient";
+import { toast } from "react-hot-toast";
 
 function Home() {
   const dispatch = useDispatch();
+  const [suggestedUser, setSuggestedUser] = useState([]);
   const { user } = useSelector((state) => state.user);
 
   const isWithin24Hours = (createdAt) => {
@@ -17,9 +20,26 @@ function Home() {
     return diffInHours < 24;
   };
 
+  const suggestUser = async () => {
+    try {
+      const res = await axios.get("user/suggestedUser");
+      console.log(res.data.data);
+      setSuggestedUser(res.data.data);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
+
   useEffect(() => {
     dispatch(getMyProfile());
   }, []);
+
+  useEffect(() => {
+    if (user?.followers?.length <= 0) {
+      suggestUser();
+    }
+  }, [user]);
 
   return (
     <div className="md:w-full w-screen h-full bg-dark-1 text-white p-10 mb-20 md:mb-10">
@@ -47,7 +67,7 @@ function Home() {
               })}
 
             {user &&
-              user.followers.map((fol) => {
+              user.followers?.map((fol) => {
                 return fol.story?.map((story) => {
                   return (
                     isWithin24Hours(story.createdAt) && (
@@ -68,9 +88,8 @@ function Home() {
         </div>
 
         <div className=" w-full flex flex-col justify-center items-center ">
-          {!user && <Loader />}
           {user &&
-            user.followers.map((fol) => {
+            user.followers?.map((fol) => {
               return fol.posts?.map((post) => {
                 return (
                   <ProjectCard
@@ -83,11 +102,37 @@ function Home() {
                     likes={post.likes}
                     comments={post.comments}
                     createdAt={post.createdAt}
+                    ownerId={post.owner}
                   />
                 );
               });
             })}
         </div>
+
+        {user && user.followers?.length <= 0 && (
+          <div>
+            <h2 className="text-white text-2xl font-medium py-5">
+              Suggestions for you
+            </h2>
+
+            <div className="flex items-center flex-col  w-full gap-8">
+              {suggestUser &&
+                suggestedUser.map((item) => {
+                  return (
+                    <ShowUser
+                      name={item.name}
+                      username={item?.username ? item.username : item.name}
+                      avatar={item.avatar?.url}
+                      id={item._id}
+                      isFollowedByCurrentUser={user?.followers?.some(
+                        (follower) => follower._id === item._id
+                      )}
+                    />
+                  );
+                })}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

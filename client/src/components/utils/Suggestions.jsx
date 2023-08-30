@@ -38,6 +38,7 @@ function Suggestions() {
                 isFollowedByCurrentUser={user?.followers?.some(
                   (follower) => follower._id === item._id
                 )}
+                
               />
             );
           })}

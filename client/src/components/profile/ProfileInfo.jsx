@@ -41,10 +41,6 @@ function ProfileInfo({
     }
   };
 
-  useEffect(() => {
-    console.log("USER ID", id);
-    console.log("FOLLOW", isFollowedByCurrentUser);
-  }, []);
   return (
     <div className="text-white w-full      md:w-full p-6 overflow-x-hidden">
       {/* top profile section */}
@@ -61,7 +57,7 @@ function ProfileInfo({
 
         {user?._id === id ? (
           <button
-            className="flex justify-center items-center bg-dark-3 h-11 w-24 md:w-28 px-2 py-2 rounded-lg gap-3 font-bold"
+            className="flex justify-center items-center bg-dark-3 h-11 w-24 md:w-28 px-2 py-2 rounded-lg gap-3 font-bold "
             onClick={() => {
               navigate("/profile/edit");
             }}

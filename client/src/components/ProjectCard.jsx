@@ -12,6 +12,7 @@ import DeleteProjectModal from "./DeleteProjectModal";
 import { getMyProfile } from "../redux/slices/userSlice";
 import getTimeAgo from "../utils/getTimeAgo";
 import LoadingBar from "react-top-loading-bar";
+import { useNavigate } from "react-router-dom";
 
 const ProjectCard = ({
   id,
@@ -28,11 +29,11 @@ const ProjectCard = ({
   const [showComments, setShowComments] = useState(false);
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
   const [deleteModal, setDeleteModal] = useState(false);
   const [isLiked, setIsLiked] = useState();
   const [likeLength, setLikeLength] = useState();
   const [allComments, setAllComments] = useState();
+  const navigate = useNavigate();
 
   const [progress, setProgress] = useState(0);
 
@@ -109,14 +110,17 @@ const ProjectCard = ({
     checkLikeandComment();
   }, []);
   return (
-    <div className="bg-dark-2 rounded-lg shadow p-4 m-4 text-white md:w-[500px] w-[calc(100vw-10vw)] ">
+    <div className="bg-dark-2 rounded-lg shadow p-4 m-4 text-white md:w-[500px] w-[calc(100vw-20vw)]">
       <LoadingBar
         color="#f11946"
         progress={progress}
         onLoaderFinished={() => setProgress(0)}
       />
       <div className="flex items-center justify-between">
-        <div className="flex  items-center gap-2">
+        <div
+          className="flex  items-center gap-2 cursor-pointer"
+          onClick={() => navigate(`/profile/${ownerId}`)}
+        >
           <img
             src={avatar}
             alt="post"
@@ -127,7 +131,7 @@ const ProjectCard = ({
 
         {user?._id === ownerId ? (
           <button
-            className="text-xl text-white"
+            className="text-xl text-gray-1 cursor-pointer"
             onClick={() => setDeleteModal(true)}
           >
             <RiDeleteBin6Line />
@@ -185,7 +189,10 @@ const ProjectCard = ({
                     className=" flex items-center justify-between w-[95%] mt-5"
                     key={item._id}
                   >
-                    <div className="flex items-start gap-2">
+                    <div
+                      className="flex items-start gap-2 cursor-pointer"
+                      onClick={() => navigate(`/profile/${item.user._id}`)}
+                    >
                       <div>
                         <Avatar round size="30" src={item.user.avatar?.url} />
                       </div>
@@ -199,7 +206,7 @@ const ProjectCard = ({
 
                     {user?._id === item.user._id && (
                       <div
-                        className="text-xl"
+                        className="text-xl text-gray-1 cursor-pointer"
                         onClick={() => deleteComment(item._id)}
                       >
                         <RiDeleteBin5Fill />

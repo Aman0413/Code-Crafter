@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
 import Avatar from "react-avatar";
+import { toast } from "react-hot-toast";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { getMyProfile } from "../../redux/slices/userSlice";
+import axios from "../../utils/axiosclient";
 
 function ShowUser({
   name,
@@ -11,19 +15,36 @@ function ShowUser({
   view,
 }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleClick = () => {
     navigate(`/profile/${id}`);
   };
 
+  const followUnfollowUser = async () => {
+    try {
+      const res = await axios.post("user/userProfile", {
+        userId: id,
+      });
+
+      if (res.status === 200) {
+        toast.success(res.data.message);
+        dispatch(getMyProfile());
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
+
   return (
-    <div
-      className="flex w-full justify-between cursor-pointer"
-      onClick={() => {
-        handleClick();
-      }}
-    >
-      <div className="flex items-center gap-2">
+    <div className="flex w-full justify-between cursor-pointer">
+      <div
+        className="flex items-center gap-2"
+        onClick={() => {
+          handleClick();
+        }}
+      >
         <div>
           <Avatar round size="60" src={avatar} />
         </div>
@@ -49,6 +70,7 @@ function ShowUser({
               ? "bg-dark-3 text-primary-500"
               : "bg-primary-500 text-white"
           }`}
+          onClick={followUnfollowUser}
         >
           <p>{isFollowedByCurrentUser ? "Unfollow" : "Follow"}</p>
         </button>

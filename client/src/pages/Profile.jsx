@@ -44,7 +44,7 @@ function Profile() {
   }, [id, dispatch]);
 
   return (
-    <div className="bg-dark-1 text-white  w-screen md:w-full h-full flex flex-col  items-center  mb-20 md:mb-10 ">
+    <div className="bg-dark-1 text-white  w-screen md:w-full h-full flex flex-col  items-center  mb-20 md:mb-10 overflow-hidden">
       <LoadingBar
         color="#f11946"
         progress={progress}
@@ -67,7 +67,7 @@ function Profile() {
           )}
         />
       )}
-      <div className=" w-[90%] bg-dark-3 flex items-center justify-center rounded-md">
+      <div className=" w-[calc(100vw-10vw)] md:w-[80%] bg-dark-3 flex items-center justify-center rounded-md">
         {userProfile && (
           <div className="w-[100%] text-white rounded-lg flex items-center justify-between md:h-24 h-16 ">
             <div
@@ -158,13 +158,14 @@ function Profile() {
           </div>
         )}
       </div>
+
       <div
         className={` md:w-[60%]  flex flex-col justify-center items-center  p-6 gap-7 ${
           showTabs === "posts" ? "block" : "hidden"
         } `}
       >
         {" "}
-        <div className=" w-full flex flex-col justify-center items-center ">
+        <div className="w-full flex bg-dark-1 flex-col justify-center items-center ">
           {userProfile?.posts?.length > 0 ? (
             <>
               {userProfile &&
@@ -186,7 +187,9 @@ function Profile() {
                 })}
             </>
           ) : (
-            <div>{userProfile && "There is no projects"}</div>
+            <div className="text-gray-1">
+              {userProfile && "There is no projects"}
+            </div>
           )}
         </div>
       </div>
@@ -196,40 +199,44 @@ function Profile() {
           showTabs === "followings" ? "block" : "hidden"
         }`}
       >
-        {userProfile && userProfile.followings?.length > 0
-          ? userProfile.followings?.map((item) => {
-              return (
-                <ShowUser
-                  key={item.id}
-                  name={item.name}
-                  avatar={item.avatar.url}
-                  id={item._id}
-                  username={item.username ? item.username : item.name}
-                  view="View"
-                />
-              );
-            })
-          : "No Followings Yet"}
+        {userProfile && userProfile.followings?.length > 0 ? (
+          userProfile.followings?.map((item) => {
+            return (
+              <ShowUser
+                key={item.id}
+                name={item.name}
+                avatar={item.avatar.url}
+                id={item._id}
+                username={item.username ? item.username : item.name}
+                view="View"
+              />
+            );
+          })
+        ) : (
+          <p className="text-gray-1"> No Followings Yet</p>
+        )}
       </div>
       <div
         className={`text-white mt-10 bg-dark-2 rounded-md p-6 overflow-y-scroll h-80 md:w-[80%] w-[90%] flex flex-col items-center gap-6 ${
           showTabs === "followers" ? "block" : "hidden"
         }`}
       >
-        {userProfile && userProfile.followers?.length > 0
-          ? userProfile.followers?.map((item) => {
-              return (
-                <ShowUser
-                  key={item.id}
-                  name={item.name}
-                  avatar={item.avatar.url}
-                  id={item._id}
-                  username={item.username ? item.username : item.name}
-                  view="View"
-                />
-              );
-            })
-          : "No Followings Yet"}
+        {userProfile && userProfile.followers?.length > 0 ? (
+          userProfile.followers?.map((item) => {
+            return (
+              <ShowUser
+                key={item.id}
+                name={item.name}
+                avatar={item.avatar.url}
+                id={item._id}
+                username={item.username ? item.username : item.name}
+                view="View"
+              />
+            );
+          })
+        ) : (
+          <p className="text-gray-1">No Followings Yet</p>
+        )}
       </div>
     </div>
   );

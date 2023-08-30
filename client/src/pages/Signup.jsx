@@ -24,16 +24,29 @@ function Signup() {
 
     try {
       const timer = setTimeout(() => {
-        toast("Signup is taking longer than usual...", {
+        toast("Login is taking longer than usual...", {
           icon: "⏳",
         });
-      }, 6000);
+      }, 10000);
+      const timer2 = setTimeout(() => {
+        toast("Please wait...", {
+          icon: "😁",
+        });
+      }, 20000);
+      const timer3 = setTimeout(() => {
+        toast("We know you are in hurry...", {
+          icon: "♥️",
+        });
+      }, 35000);
 
       setProgress(30);
       setProgress(50);
       const res = await axios.post("auth/sendOtp", {
         email: signupData.email,
       });
+      clearTimeout(timer);
+      clearTimeout(timer2);
+      clearTimeout(timer3);
 
       clearTimeout(timer);
       if (res.data.success) {

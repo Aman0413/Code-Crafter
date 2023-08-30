@@ -48,8 +48,8 @@ function RequireUser() {
       <Navbar />
       <div className="flex ">
         <Sidebar />
-        <div className=" block md:hidden bg-dark-2 bg-opacity-75 backdrop-blur-lg w-full z-20 fixed bottom-0 left-0  h-16 mb-2">
-          <div className="w-full h-full flex items-center justify-between px-4 transition-all ease-in-out duration-300 ">
+        <div className=" block md:hidden bg-dark-2 bg-opacity-75 backdrop-blur-lg w-full z-20 fixed bottom-0 left-0  h-16 mb-2 ">
+          <div className="w-full h-full flex items-center justify-between px-2 transition-all ease-in-out duration-300 ">
             <Link
               to={"/"}
               className={`p-3 rounded-lg ${

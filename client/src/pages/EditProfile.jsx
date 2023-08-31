@@ -100,9 +100,13 @@ function EditProfile() {
         <div className="flex items-center gap-6">
           {/* <img id="preview_img" alt="" /> */}
           {profileImg ? (
-            <MyAvatar image={profileImg} />
+            <div className="md:w-36 w-28 h-20 md:h-28 rounded-full ">
+              <MyAvatar image={profileImg} />
+            </div>
           ) : (
-            <MyAvatar image={user?.avatar?.url} />
+            <div className="md:w-36 w-28 h-20 md:h-28 rounded-full ">
+              <MyAvatar image={user?.avatar?.url} />
+            </div>
           )}
 
           <input
@@ -200,8 +204,11 @@ function EditProfile() {
       </div>
 
       <div className="mt-32">
-        <h3 className="text-2xl font-bold my-4">Danger</h3>
-        <button className="mt-5 bg-red-600 rounded-md font-bold p-3 text-[1.1rem] w-full active:scale-95 transition-all ease-in-out duration-200 " onClick={()=>setShowDeleteModal(true)}>
+        <h3 className="text-2xl font-bold my-4">Danger Zone</h3>
+        <button
+          className="mt-5 bg-red-600 rounded-md font-bold p-3 text-[1.1rem] w-full active:scale-95 transition-all ease-in-out duration-200 "
+          onClick={() => setShowDeleteModal(true)}
+        >
           Delete My Account
         </button>
       </div>

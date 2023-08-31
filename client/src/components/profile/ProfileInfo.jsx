@@ -46,8 +46,8 @@ function ProfileInfo({
       {/* top profile section */}
       <div className="flex w-full justify-between items-center p-2  md:gap-0">
         <div className="flex items-center gap-3">
-          <div className="md:w-32 w-20 rounded-full bg-red-500">
-            <img src={avatar} alt={name} className="w-full rounded-full" />
+          <div className="md:w-32 w-20 h-20 md:h-32 rounded-full ">
+            <MyAvatar image={avatar} />
           </div>
           <div>
             <p className="md:text-2xl font-extrabold">{name}</p>

@@ -2,13 +2,11 @@ import React from "react";
 
 function MyAvatar({ image }) {
   return (
-    <div class="text-center rounded-full">
-      <img
-        src={image}
-        class="mx-auto mb-4 w-32 h-20 rounded-full"
-        alt="Avatar"
-      />
-    </div>
+    <img
+      class="w-full h-full p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
+      src={image}
+      alt="profile"
+    />
   );
 }
 

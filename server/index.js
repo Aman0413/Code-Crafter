@@ -10,6 +10,7 @@ const connectDB = require("./config/dbConfig");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const postRoutes = require("./routes/postRoutes");
+const messageRoutes = require("./routes/messageRoutes");
 const multer = require("multer");
 const adminRoutes = require("./routes/adminRoutes");
 dotenv.config();
@@ -69,6 +70,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/user/post", postRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api", messageRoutes);
 
 // Scheduled task to delete expired stories
 // cron.schedule("0 0 * * *", async () => {

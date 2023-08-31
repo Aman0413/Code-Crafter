@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import axios from "../utils/axiosclient";
 import { motion } from "framer-motion";
-import { useSelector } from "react-redux";
+
 import { useNavigate } from "react-router-dom";
 
 function CreatePost() {
@@ -106,7 +106,7 @@ function CreatePost() {
                 }}
               />
               <button
-                className=" text-sm p-1 bg-primary-500 rounded-lg font-bold transition-all ease-in-out duration-200 active:scale-95"
+                className=" text-sm p-2 bg-primary-500 rounded-lg font-bold transition-all ease-in-out duration-200 active:scale-95"
                 onClick={generateAICaption}
               >
                 AI Caption
@@ -118,7 +118,7 @@ function CreatePost() {
             {postData.image && (
               <img
                 src={postData.image}
-                alt="project-image"
+                alt="project"
                 className="w-full h-80 rounded-md"
               />
             )}

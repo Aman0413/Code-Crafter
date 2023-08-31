@@ -4,20 +4,20 @@ const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const cron = require("node-cron");
+const axios = require("axios");
 const { cloudinaryConnect } = require("./config/cloudinary");
 const connectDB = require("./config/dbConfig");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const postRoutes = require("./routes/postRoutes");
-
-const User = require("./models/User");
+const multer = require("multer");
 const adminRoutes = require("./routes/adminRoutes");
-
 dotenv.config();
 const PORT = process.env.PORT || 4001;
 
 //cookie parser
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 
 const origin =
   process.env.NODE_ENV === "production"
@@ -40,15 +40,6 @@ app.listen(PORT, () => {
     console.log(`Error while running server ${error}`);
   }
 });
-
-//socket.io
-
-// const io = socket(http, {
-//   cors: {
-//     origin: "http://localhost:3000",
-//     credentials: true,
-//   },
-// });
 
 //connect to database
 connectDB();

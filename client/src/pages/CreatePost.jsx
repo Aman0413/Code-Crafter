@@ -46,12 +46,35 @@ function CreatePost() {
     fileReader.onload = () => {
       if (fileReader.readyState === fileReader.DONE) {
         setPostData({ ...postData, image: fileReader.result });
-        console.log("img data", fileReader.result);
       }
     };
   };
 
-  useEffect(() => {}, [postData]);
+  const generateAICaption = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = axios.post("user/post/generate-caption", {
+        image: postData.image,
+      });
+
+      toast.promise(res, {
+        loading: "Generating Caption...",
+        success: (data) => {
+          setPostData({ ...postData, description: data.data.caption });
+          return data.data.message;
+        },
+        error: (err) => {
+          return err.response.data.message;
+        },
+      });
+    } catch (error) {
+      toast.error(error.response.data.message);
+      console.log(error);
+    }
+  };
+
+  // useEffect(() => {}, [postData]);
 
   return (
     <motion.div
@@ -64,40 +87,32 @@ function CreatePost() {
     >
       <div className="text-white flex items-center justify-between">
         <h2 className="text-3xl font-bold text-left">Post</h2>
-
-        {/* reset button TODO */}
-        {/* <button
-          className="transition-all ease-in-out  duration-200 active:scale-95"
-          type="reset"
-          onClick={() => {
-            setPostData({
-              projectName: "",
-              description: "",
-              codeUrl: "",
-              liveUrl: "",
-              image: "",
-            });
-          }}
-        >
-          <CiUndo className="text-2xl font-extrabold " />
-        </button> */}
       </div>
 
       <div className="mt-10">
-        <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+        <form className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
             <label htmlFor="name" className="text-xl font-medium">
               Share Your Thoughts
             </label>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              className="p-3 rounded-lg bg-dark-2 outline-none focus:outline-gray-1 text-xl"
-              onChange={(e) => {
-                setPostData({ ...postData, description: e.target.value });
-              }}
-            />
+            <div className="flex flex-col md:flex-row items-center gap-4">
+              <textarea
+                type="text"
+                name="name"
+                id="name"
+                className="p-2  rounded-lg w-full bg-dark-2 outline-none focus:outline-gray-1 text-sm md:text-xl"
+                value={postData.description}
+                onChange={(e) => {
+                  setPostData({ ...postData, description: e.target.value });
+                }}
+              />
+              <button
+                className=" text-sm p-1 bg-primary-500 rounded-lg font-bold transition-all ease-in-out duration-200 active:scale-95"
+                onClick={generateAICaption}
+              >
+                AI Caption
+              </button>
+            </div>
           </div>
 
           <div className="flex flex-col gap-2">
@@ -125,7 +140,10 @@ function CreatePost() {
             />
           </div>
 
-          <button className="mt-7 bg-primary-500 rounded-lg p-3 font-bold text-xl transition-all ease-in-out duration-200 active:scale-95">
+          <button
+            className="mt-7 bg-primary-500 rounded-lg p-3 font-bold text-xl transition-all ease-in-out duration-200 active:scale-95"
+            onClick={handleSubmit}
+          >
             Post
           </button>
         </form>

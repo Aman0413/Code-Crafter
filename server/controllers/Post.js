@@ -3,6 +3,8 @@ const User = require("../models/User");
 const cloudinary = require("cloudinary").v2;
 const { uploadImageToCloudinary } = require("../utils/uploadImage");
 const Comment = require("../models/Comment");
+const Clarifai = require("clarifai");
+const OpenAI = require("openai");
 
 //post or share post
 exports.createPost = async (req, res) => {
@@ -304,6 +306,75 @@ exports.checkUserLikedPost = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Error in checking like",
+      error: error.message,
+    });
+  }
+};
+
+// generate caption based on image
+exports.generateCaption = async (req, res) => {
+  try {
+    const { image } = req.body;
+
+    if (!image) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide image",
+      });
+    }
+
+    // upload image to cloudinary
+    const result = await uploadImageToCloudinary(image);
+
+    if (!result) {
+      return res.status(500).json({
+        success: false,
+        message: "Error in uploading image",
+      });
+    }
+
+    const clarifai = new Clarifai.App({
+      apiKey: process.env.CLARIFAI_API_KEY,
+    });
+    // generate caption
+    const response = await clarifai.models.predict(
+      Clarifai.GENERAL_MODEL,
+      result.secure_url
+    );
+
+    // Extract captions from the response
+    const captions = response.outputs[0].data.concepts.map(
+      (concept) => concept.name
+    );
+
+    // Create a prompt using the provided captions
+    const prompt = `Generate a captivating caption for social media post using the keywords: ${captions.join(
+      ", "
+    )}.`;
+
+    const openai = new OpenAI({
+      apiKey: process.env.OPEN_AI_API_KEY,
+    });
+
+    const completion = await openai.completions.create({
+      model: "text-davinci-003",
+      prompt,
+      max_tokens: 30,
+    });
+
+    //delete image from cloudinary
+    await cloudinary.uploader.destroy(result.public_id);
+
+    return res.status(200).json({
+      success: true,
+      message: "Caption generated successfully",
+      caption: completion.choices[0].text,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "Error in generating caption",
       error: error.message,
     });
   }

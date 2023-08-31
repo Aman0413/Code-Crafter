@@ -61,10 +61,12 @@ function CreatePost() {
       toast.promise(res, {
         loading: "Generating Caption...",
         success: (data) => {
+          console.log(data);
           setPostData({ ...postData, description: data.data.caption });
           return data.data.message;
         },
         error: (err) => {
+          console.log(err);
           return err.response.data.message;
         },
       });

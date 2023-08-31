@@ -365,6 +365,7 @@ exports.generateCaption = async (req, res) => {
     //delete image from cloudinary
     await cloudinary.uploader.destroy(result.public_id);
 
+    console.log(completion);
     return res.status(200).json({
       success: true,
       message: "Caption generated successfully",

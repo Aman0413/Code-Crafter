@@ -348,7 +348,7 @@ exports.generateCaption = async (req, res) => {
     );
 
     // Create a prompt using the provided captions
-    const prompt = `Generate a captivating caption for social media post using the keywords: ${captions.join(
+    const prompt = `Generate a short captivating caption for social media post using this keywords: ${captions.join(
       ", "
     )}.`;
 
@@ -359,17 +359,15 @@ exports.generateCaption = async (req, res) => {
     const completion = await openai.completions.create({
       model: "text-davinci-003",
       prompt,
-      max_tokens: 30,
+      max_tokens: 50,
     });
 
     //delete image from cloudinary
     await cloudinary.uploader.destroy(result.public_id);
-
-    console.log(completion);
     return res.status(200).json({
       success: true,
       message: "Caption generated successfully",
-      caption: completion.choices[0].text,
+      caption: completion.choices[0].text.replace(/\n/g, ""),
     });
   } catch (error) {
     console.log(error);

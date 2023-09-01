@@ -12,7 +12,7 @@ function Navbar() {
       <div className="flex md:px-3 items-center w-full justify-between ">
         <Link to={"/"}>
           {" "}
-          <h1 className="md:text-4xl text-xl cursor-pointer font-heading shadow-lg">
+          <h1 className="md:text-4xl text-2xl cursor-pointer font-heading shadow-lg">
             Social
             <span className="text-primary-500 ">Flock</span>
           </h1>

@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import LoadingBar from "react-top-loading-bar";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import Loader from "../components/utils/Loader";
 
 function Signup() {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ function Signup() {
   const [progress, setProgress] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [signupData, setSignupData] = useState({
     name: "",
@@ -40,6 +42,7 @@ function Signup() {
     }
 
     try {
+      setLoading(true);
       const timer = setTimeout(() => {
         toast("Signup is taking longer than usual...", {
           icon: "⏳",
@@ -61,20 +64,23 @@ function Signup() {
       const res = await axios.post("auth/sendOtp", {
         email: signupData.email,
       });
+
       clearTimeout(timer);
       clearTimeout(timer2);
       clearTimeout(timer3);
-
+      setLoading(false);
+      setProgress(100);
       clearTimeout(timer);
+
       if (res.data.success) {
         toast.success("OTP sent successfully");
-        setProgress(100);
         navigate("/verify-email");
       }
     } catch (error) {
       toast.error(error.response.data.message);
       console.log(error);
       setProgress(0);
+      setLoading(false);
     }
   };
 
@@ -412,9 +418,9 @@ function Signup() {
                   className="absolute right-3 top-[42px] z-[10] cursor-pointer "
                 >
                   {showPassword ? (
-                    <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
-                  ) : (
                     <AiOutlineEye fontSize={24} fill="#AFB2BF" />
+                  ) : (
+                    <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
                   )}
                 </span>
               </label>
@@ -444,9 +450,9 @@ function Signup() {
                   className="absolute right-3 top-[42px] z-[10] cursor-pointer "
                 >
                   {showConfirmPassword ? (
-                    <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
-                  ) : (
                     <AiOutlineEye fontSize={24} fill="#AFB2BF" />
+                  ) : (
+                    <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
                   )}
                 </span>
               </label>
@@ -457,8 +463,9 @@ function Signup() {
                 <button
                   type="submit"
                   className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-bold rounded-md text-white bg-primary-500 hover:bg-blue-700 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-[#877EFF] transition duration-150 ease-in-out"
+                  disabled={loading}
                 >
-                  Sign in
+                  {loading ? <Loader /> : "Sign up"}
                 </button>
               </span>
             </div>

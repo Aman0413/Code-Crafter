@@ -144,7 +144,7 @@ const ProjectCard = ({
       </div>
 
       <div className="py-3 md:py-5">
-        <p className="font-bold">{description}</p>
+        <p className="">{description}</p>
       </div>
       <p className="mt-2 w-full">
         <img src={image} alt="" className="rounded-md w-full" />

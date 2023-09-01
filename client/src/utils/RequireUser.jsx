@@ -20,6 +20,7 @@ import { RiImageAddLine } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import axios from "./axiosclient";
 import { toast } from "react-hot-toast";
+import { FaUsers } from "react-icons/fa";
 
 function RequireUser() {
   const token = localStorage.getItem("token");
@@ -77,20 +78,7 @@ function RequireUser() {
                 } `}
               />
             </Link>
-            <Link
-              to={"/activity"}
-              className={`p-3 rounded-lg ${
-                pathname === "/activity"
-                  ? "bg-primary-500 bg-opacity-75 backdrop-blur-lg "
-                  : ""
-              }`}
-            >
-              <AiOutlineHeart
-                className={`text-xl ${
-                  pathname === "/activity" ? "text-dark-3" : "text-primary-500"
-                } `}
-              />
-            </Link>
+
             <Link
               to={"/post-post"}
               className={`p-3 rounded-lg ${
@@ -102,6 +90,20 @@ function RequireUser() {
               <RiImageAddLine
                 className={`text-xl ${
                   pathname === "/post-post" ? "text-dark-3" : "text-primary-500"
+                } `}
+              />
+            </Link>
+            <Link
+              to={"/community"}
+              className={`p-3 rounded-lg ${
+                pathname === "/community"
+                  ? "bg-primary-500 bg-opacity-75 backdrop-blur-lg "
+                  : ""
+              }`}
+            >
+              <FaUsers
+                className={`text-xl ${
+                  pathname === "/community" ? "text-dark-3" : "text-primary-500"
                 } `}
               />
             </Link>

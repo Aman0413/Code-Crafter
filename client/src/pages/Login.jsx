@@ -7,12 +7,14 @@ import Loader from "../components/utils/Loader";
 import { getMyProfile } from "../redux/slices/userSlice";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { motion } from "framer-motion";
+import LoadingBar from "react-top-loading-bar";
 
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -22,6 +24,7 @@ function Login() {
     e.preventDefault();
 
     try {
+      setProgress(50);
       setLoading(true);
       const timer = setTimeout(() => {
         toast("Login is taking longer than usual...", {
@@ -43,6 +46,8 @@ function Login() {
       clearTimeout(timer);
       clearTimeout(timer2);
       clearTimeout(timer3);
+      setProgress(100);
+
       if (res.data.success) {
         localStorage.setItem("token", res.data.token);
         toast.success("Login successfull");
@@ -51,6 +56,7 @@ function Login() {
         dispatch(getMyProfile());
       }
     } catch (error) {
+      setProgress(100);
       toast.error(error.response.data.message);
       setLoading(false);
     }
@@ -65,6 +71,11 @@ function Login() {
       exit={{ x: "-100%", opacity: 0 }}
       transition={{ duration: 0.4 }}
     >
+      <LoadingBar
+        color="#f11946"
+        progress={progress}
+        onLoaderFinished={() => setProgress(0)}
+      />
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className=" flex justify-center items-center ">
           <svg
@@ -363,9 +374,9 @@ function Login() {
                   className="absolute right-3 top-[42px] z-[10] cursor-pointer "
                 >
                   {showPassword ? (
-                    <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
-                  ) : (
                     <AiOutlineEye fontSize={24} fill="#AFB2BF" />
+                  ) : (
+                    <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
                   )}
                 </span>
               </label>
@@ -380,6 +391,7 @@ function Login() {
                 <button
                   type="submit"
                   className="w-full flex justify-center py-2 px-4 border border-transparent text-sm  rounded-md text-white bg-primary-500 hover:bg-blue-700 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-[#877EFF] transition duration-150 ease-in-out font-bold"
+                  disabled={loading}
                 >
                   {loading ? <Loader /> : "Login"}
                 </button>

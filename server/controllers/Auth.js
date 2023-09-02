@@ -73,6 +73,8 @@ exports.signup = async (req, res) => {
   try {
     const { name, email, password, otp } = req.body;
 
+    console.log("BODY", req.body);
+
     if (!name || !email || !password || !otp) {
       return res.status(400).json({
         success: false,
@@ -91,6 +93,8 @@ exports.signup = async (req, res) => {
 
     //check if otp exists
     const recentOtp = await OTP.find({ email }).sort({ createdAt: -1 });
+
+    console.log("RECENT OTP", recentOtp);
 
     if (recentOtp.length == 0) {
       return res.status(400).json({

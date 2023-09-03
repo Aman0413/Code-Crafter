@@ -100,26 +100,26 @@ function Profile() {
             </div>
             <div
               className={`flex justify-center items-center gap-2  w-40 p-1 rounded-md transition-all ease-in-out duration-300 cursor-pointer h-full ${
-                showTabs === "followers" ? "bg-primary-500 text-white " : ""
+                showTabs === "followings" ? "bg-primary-500 text-white " : ""
               } `}
-              onClick={() => handleTabs("followers")}
+              onClick={() => handleTabs("followings")}
             >
               <div
                 className={`hidden md:block text-xl md:text-2xl  font-bold ${
-                  showTabs === "followers" ? "text-dark-3" : "text-light-3"
+                  showTabs === "followings" ? "text-dark-3" : "text-light-3"
                 }`}
               >
                 <PiUsersThreeBold />
               </div>
               <div className="flex flex-col justify-center items-center">
                 <p className="text-xl font-bold">
-                  {userProfile.followers?.length > 0
-                    ? userProfile.followers?.length
+                  {userProfile.followings?.length > 0
+                    ? userProfile.followings?.length
                     : 0}
                 </p>
                 <p
                   className={` font-medium text-xs md:text-sm ${
-                    showTabs === "followers" ? " text-dark-3" : "text-light-3"
+                    showTabs === "followings" ? " text-dark-3" : "text-light-3"
                   }`}
                 >
                   Followers
@@ -128,13 +128,13 @@ function Profile() {
             </div>
             <div
               className={`flex justify-center items-center gap-2  w-40 p-1 rounded-md transition-all ease-in-out duration-300 cursor-pointer h-full  ${
-                showTabs === "followings" ? "bg-primary-500 text-white " : ""
+                showTabs === "followers" ? "bg-primary-500 text-white " : ""
               }`}
-              onClick={() => handleTabs("followings")}
+              onClick={() => handleTabs("followers")}
             >
               <div
                 className={`hidden md:block text-xl md:text-2xl   font-bold ${
-                  showTabs === "followings" ? "text-dark-3" : "text-light-3"
+                  showTabs === "followers" ? "text-dark-3" : "text-light-3"
                 }`}
               >
                 {" "}
@@ -142,13 +142,13 @@ function Profile() {
               </div>
               <div className="flex flex-col justify-center items-center">
                 <p className="text-sm md:text-xl font-bold">
-                  {userProfile.followings?.length > 0
-                    ? userProfile.followings?.length
+                  {userProfile.followers?.length > 0
+                    ? userProfile.followers?.length
                     : 0}
                 </p>
                 <p
                   className={` font-medium text-xs md:text-sm ${
-                    showTabs === "followings" ? "text-dark-3" : "text-light-3"
+                    showTabs === "followers" ? "text-dark-3" : "text-light-3"
                   }`}
                 >
                   Followings

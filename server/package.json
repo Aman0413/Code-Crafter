@@ -24,7 +24,8 @@
     "nodemon": "^3.0.1",
     "openai": "^4.3.1",
     "otp-generator": "^4.0.1",
-    "socket.io": "^4.7.2"
+    "socket.io": "^4.7.2",
+    "vercel": "^32.1.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

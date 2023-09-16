@@ -22,7 +22,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 const origin =
-  process.env.NODE_ENV === "production"
+  process.env.NODE_ENV === "producation"
     ? process.env.CLIENT_URL
     : "http://localhost:3000";
 

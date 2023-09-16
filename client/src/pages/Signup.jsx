@@ -8,6 +8,8 @@ import { motion } from "framer-motion";
 import LoadingBar from "react-top-loading-bar";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import Loader from "../components/utils/Loader";
+import { useFormik } from "formik";
+import { signupValidation } from "../utils/Validation";
 
 function Signup() {
   const navigate = useNavigate();
@@ -17,72 +19,41 @@ function Signup() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const [signupData, setSignupData] = useState({
+  const signupData = {
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
-  });
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    dispatch(updateSignupData(signupData));
-
-    if (
-      !signupData.name ||
-      !signupData.email ||
-      !signupData.password ||
-      !signupData.confirmPassword
-    ) {
-      return toast.error("Please fill all the fields");
-    }
-
-    if (signupData.password !== signupData.confirmPassword) {
-      return toast.error("Password and Confirm Password Should be same");
-    }
-
-    try {
-      setLoading(true);
-      const timer = setTimeout(() => {
-        toast("Signup is taking longer than usual...", {
-          icon: "⏳",
-        });
-      }, 15000);
-      const timer2 = setTimeout(() => {
-        toast("Please wait...", {
-          icon: "😁",
-        });
-      }, 25000);
-      const timer3 = setTimeout(() => {
-        toast("We know you are in hurry...", {
-          icon: "♥️",
-        });
-      }, 40000);
-
-      setProgress(30);
-      setProgress(50);
-      const res = await axios.post("auth/sendOtp", {
-        email: signupData.email,
-      });
-
-      clearTimeout(timer);
-      clearTimeout(timer2);
-      clearTimeout(timer3);
-      setLoading(false);
-      setProgress(100);
-      clearTimeout(timer);
-
-      if (res.data.success) {
-        toast.success("OTP sent successfully");
-        navigate("/verify-email");
-      }
-    } catch (error) {
-      toast.error(error.response.data.message);
-      console.log(error);
-      setProgress(0);
-      setLoading(false);
-    }
   };
+
+  const { handleChange, handleSubmit, handleBlur, values, errors, touched } =
+    useFormik({
+      initialValues: signupData,
+      validationSchema: signupValidation,
+      onSubmit: async (values, action) => {
+        dispatch(updateSignupData(values));
+        try {
+          setLoading(true);
+          setProgress(50);
+          const res = await axios.post("auth/sendOtp", {
+            email: values.email,
+          });
+          setProgress(100);
+          setLoading(false);
+          if (res.data.success) {
+            toast.success("OTP sent successfully");
+            navigate("/verify-email");
+          }
+          action.resetForm();
+        } catch (error) {
+          action.resetForm();
+          toast.error(error.response.data.message);
+          console.log(error);
+          setProgress(100);
+          setLoading(false);
+        }
+      },
+    });
 
   return (
     <motion.div
@@ -341,23 +312,25 @@ function Signup() {
           <form onSubmit={handleSubmit} className="text-white ">
             <div>
               <label
-                for="username"
+                for="name"
                 className="block text-sm font-medium leading-5  text-gray-1"
               >
                 Name
               </label>
               <div className="mt-1 relative rounded-md shadow-sm">
                 <input
-                  id="username"
-                  name="username"
+                  id="name"
+                  name="name"
                   type="text"
                   placeholder="Name"
-                  required
-                  onChange={(e) =>
-                    setSignupData({ ...signupData, name: e.target.value })
-                  }
+                  value={values.name}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
                   className="appearance-none bg-dark-3 block w-full px-3 py-4  rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5 focus:border-2 border-light-3 placeholder:text-light-4  "
                 />
+                {errors.name && touched.name ? (
+                  <p className="text-red-600 text-sm mt-2">{errors.name}</p>
+                ) : null}
                 <div className="hidden absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                   <svg
                     className="h-5 w-5 text-red-500"
@@ -387,12 +360,14 @@ function Signup() {
                   name="email"
                   type="email"
                   placeholder="example@gmail.com"
-                  required
-                  onChange={(e) =>
-                    setSignupData({ ...signupData, email: e.target.value })
-                  }
+                  value={values.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                   className="appearance-none bg-dark-3 block w-full px-3 py-4  rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5 focus:border-2 border-light-3 placeholder:text-light-4  "
                 />
+                {errors.email && touched.email ? (
+                  <p className="text-red-600 text-sm mt-2">{errors.email}</p>
+                ) : null}
               </div>
             </div>
             <div className="my-4 ">
@@ -401,18 +376,19 @@ function Signup() {
                   Password
                 </p>
                 <input
-                  required
+                  id="password"
                   type={showPassword ? "text" : "password"}
                   name="password"
-                  onChange={(e) => {
-                    setSignupData({
-                      ...signupData,
-                      password: e.target.value,
-                    });
-                  }}
+                  value={values.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                   placeholder=" Password"
                   className="appearance-none bg-dark-3 block w-full px-3 py-4  rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5 focus:border-2 border-light-3 placeholder:text-light-4"
                 />
+                {errors.password && touched.password ? (
+                  <p className="text-red-600 text-sm mt-2">{errors.password}</p>
+                ) : null}
+
                 <span
                   onClick={() => setShowPassword((prev) => !prev)}
                   className="absolute right-3 top-[42px] z-[10] cursor-pointer "
@@ -432,19 +408,20 @@ function Signup() {
                   Confirm Password
                 </p>
                 <input
-                  required
                   type={showConfirmPassword ? "text" : "password"}
                   name="confirmPassword"
                   id="confirmPassword"
-                  onChange={(e) => {
-                    setSignupData({
-                      ...signupData,
-                      confirmPassword: e.target.value,
-                    });
-                  }}
+                  value={values.confirmPassword}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
                   placeholder=" Confirm Password"
                   className="appearance-none bg-dark-3 block w-full px-3 py-4  rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5 focus:border-2 border-light-3 placeholder:text-light-4"
                 />
+                {errors.confirmPassword && touched.confirmPassword ? (
+                  <p className="text-red-600 text-sm mt-2">
+                    {errors.confirmPassword}
+                  </p>
+                ) : null}
                 <span
                   onClick={() => setShowConfirmPassword((prev) => !prev)}
                   className="absolute right-3 top-[42px] z-[10] cursor-pointer "

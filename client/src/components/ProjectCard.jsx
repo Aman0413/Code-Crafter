@@ -225,7 +225,7 @@ const ProjectCard = ({
               onChange={(e) => setComment(e.target.value)}
             />
             <button
-              className="bg-primary-500 md:w-[20%] p-2 rounded-lg font-medium  flex items-center justify-center"
+              className="bg-primary-500 md:w-[20%] md:p-2 rounded-2xl font-medium text-sm md:text-base  flex items-center justify-center px-2 py-1 "
               onClick={() => {
                 postComment(id, comment);
               }}

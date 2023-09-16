@@ -7,7 +7,9 @@ import Loader from "../components/utils/Loader";
 import { getMyProfile } from "../redux/slices/userSlice";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { motion } from "framer-motion";
+import { useFormik } from "formik";
 import LoadingBar from "react-top-loading-bar";
+import { loginValidation } from "../utils/Validation";
 
 function Login() {
   const navigate = useNavigate();
@@ -15,52 +17,39 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [loginData, setLoginData] = useState({
+
+  const loginData = {
     email: "",
     password: "",
-  });
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      setProgress(50);
-      setLoading(true);
-      const timer = setTimeout(() => {
-        toast("Login is taking longer than usual...", {
-          icon: "⏳",
-        });
-      }, 15000);
-      const timer2 = setTimeout(() => {
-        toast("Please wait...", {
-          icon: "😁",
-        });
-      }, 25000);
-      const timer3 = setTimeout(() => {
-        toast("We know you are in hurry...", {
-          icon: "♥️",
-        });
-      }, 40000);
-
-      const res = await axios.post("/auth/login", loginData);
-      clearTimeout(timer);
-      clearTimeout(timer2);
-      clearTimeout(timer3);
-      setProgress(100);
-
-      if (res.data.success) {
-        localStorage.setItem("token", res.data.token);
-        toast.success("Login successfull");
-        setLoading(false);
-        navigate("/");
-        dispatch(getMyProfile());
-      }
-    } catch (error) {
-      setProgress(100);
-      toast.error(error.response.data.message);
-      setLoading(false);
-    }
   };
+
+  const { handleChange, handleSubmit, handleBlur, values, errors, touched } =
+    useFormik({
+      initialValues: loginData,
+      validationSchema: loginValidation,
+      onSubmit: async (values, action) => {
+        try {
+          setProgress(50);
+          setLoading(true);
+          const res = await axios.post("/auth/login", values);
+          setProgress(100);
+
+          if (res.data.success) {
+            localStorage.setItem("token", res.data.token);
+            toast.success("Login successfull");
+            setLoading(false);
+            navigate("/");
+            dispatch(getMyProfile());
+          }
+          action.resetForm();
+        } catch (error) {
+          action.resetForm();
+          setProgress(100);
+          toast.error(error.response.data.message);
+          setLoading(false);
+        }
+      },
+    });
 
   return (
     <motion.div
@@ -332,12 +321,14 @@ function Login() {
                   name="email"
                   placeholder="user@example.com"
                   type="email"
-                  required
-                  onChange={(e) => {
-                    setLoginData({ ...loginData, email: e.target.value });
-                  }}
+                  value={values.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                   className="appearance-none bg-dark-3 block w-full px-3 py-4  rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5 focus:border-2 border-light-3 placeholder:text-light-4"
                 />
+                {errors.email && touched.email ? (
+                  <p className="text-red-600 text-sm mt-2">{errors.email}</p>
+                ) : null}
                 <div className="hidden absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                   <svg
                     className="h-5 w-5 text-red-500"
@@ -360,15 +351,17 @@ function Login() {
                   Password
                 </p>
                 <input
-                  required
                   type={showPassword ? "text" : "password"}
                   name="password"
-                  onChange={(e) => {
-                    setLoginData({ ...loginData, password: e.target.value });
-                  }}
-                  placeholder=" Password"
+                  value={values.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  placeholder="Password"
                   className="appearance-none bg-dark-3 block w-full px-3 py-4  rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5 focus:border-2 border-light-3 placeholder:text-light-4"
                 />
+                {errors.password && touched.password ? (
+                  <p className="text-red-600 text-sm mt-2">{errors.password}</p>
+                ) : null}
                 <span
                   onClick={() => setShowPassword((prev) => !prev)}
                   className="absolute right-3 top-[42px] z-[10] cursor-pointer "

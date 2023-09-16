@@ -112,7 +112,7 @@ function Profile() {
                 <PiUsersThreeBold />
               </div>
               <div className="flex flex-col justify-center items-center">
-                <p className="text-xl font-bold">
+                <p className="text-sm md:text-xl font-bold">
                   {userProfile.followings?.length > 0
                     ? userProfile.followings?.length
                     : 0}

@@ -33,7 +33,7 @@ function Community() {
         onLoaderFinished={() => setProgress(0)}
       />
       <h1 className="text-2xl font-bold my-10">Community</h1>
-      <div className=" w-full h-full overflow-y-auto flex flex-col gap-7">
+      <div className=" w-full h-full overflow-y-auto flex flex-col gap-7 pb-20">
         {users &&
           users.map((user) => {
             return (

@@ -10,6 +10,7 @@ import { PiUsersThreeBold } from "react-icons/pi";
 import { GoFileMedia } from "react-icons/go";
 import ShowUser from "../components/utils/ShowUser";
 import LoadingBar from "react-top-loading-bar";
+import PostCardShimmerEffect from "../components/PostCardShimmerEffect";
 
 function Profile() {
   const dispatch = useDispatch();
@@ -50,6 +51,7 @@ function Profile() {
         progress={progress}
         onLoaderFinished={() => setProgress(0)}
       />
+
       {userProfile && (
         <ProfileInfo
           id={userProfile._id}
@@ -166,6 +168,13 @@ function Profile() {
       >
         {" "}
         <div className="w-full flex bg-dark-1 flex-col justify-center items-center ">
+          {!userProfile && (
+            <div className="flex flex-col justify-center  w-full items-center gap-8">
+              <PostCardShimmerEffect />
+              <PostCardShimmerEffect />
+              <PostCardShimmerEffect />
+            </div>
+          )}
           {userProfile?.posts?.length > 0 ? (
             <>
               {userProfile &&

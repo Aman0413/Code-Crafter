@@ -3,16 +3,21 @@ import ShowUser from "./ShowUser";
 import axios from "../../utils/axiosclient";
 import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
+import UserShimmerEffect from "../UserShimmerEffect";
 
 function Suggestions() {
   const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
   const { user } = useSelector((state) => state.user);
 
   const fetchUsers = async () => {
     try {
+      setLoading(true);
       const res = await axios.get("user/suggestedUser");
       setUsers(res.data.data);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.log(error);
       toast.error(error.response.data.message);
     }
@@ -27,6 +32,16 @@ function Suggestions() {
         <p className="font-bold text-2xl">Suggestions for you</p>
 
         <div className="flex flex-col gap-8 my-10">
+          {loading && (
+            <div className="flex flex-col gap-4">
+              <UserShimmerEffect />
+              <UserShimmerEffect />
+              <UserShimmerEffect />
+              <UserShimmerEffect />
+              <UserShimmerEffect />
+            </div>
+          )}
+
           {users.map((item) => {
             return (
               <ShowUser
@@ -38,7 +53,6 @@ function Suggestions() {
                 isFollowedByCurrentUser={user?.followers?.some(
                   (follower) => follower._id === item._id
                 )}
-                
               />
             );
           })}

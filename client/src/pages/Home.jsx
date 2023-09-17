@@ -8,6 +8,7 @@ import axios from "../utils/axiosclient";
 import { toast } from "react-hot-toast";
 import { motion } from "framer-motion";
 import PostCardShimmerEffect from "../components/PostCardShimmerEffect";
+import UserShimmerEffect from "../components/UserShimmerEffect";
 
 function Home() {
   const dispatch = useDispatch();

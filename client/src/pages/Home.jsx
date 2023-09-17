@@ -7,10 +7,12 @@ import ShowUser from "../components/utils/ShowUser";
 import axios from "../utils/axiosclient";
 import { toast } from "react-hot-toast";
 import { motion } from "framer-motion";
+import PostCardShimmerEffect from "../components/PostCardShimmerEffect";
 
 function Home() {
   const dispatch = useDispatch();
   const [suggestedUser, setSuggestedUser] = useState([]);
+
   const { user } = useSelector((state) => state.user);
 
   const isWithin24Hours = (createdAt) => {
@@ -88,6 +90,18 @@ function Home() {
         </div>
 
         <div className=" w-full flex flex-col justify-center items-center ">
+          {
+            // Shimmer effect
+            !user && (
+              <div className="flex flex-col justify-center  w-full items-center gap-8">
+                <PostCardShimmerEffect />
+                <PostCardShimmerEffect />
+                <PostCardShimmerEffect />
+                <PostCardShimmerEffect />
+              </div>
+            )
+          }
+
           {user &&
             user.followers?.map((fol) => {
               return fol.posts?.map((post) => {

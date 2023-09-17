@@ -26,14 +26,14 @@ function Community() {
   }, []);
 
   return (
-    <div className="text-white bg-dark-1 w-full h-screen px-10 ">
+    <div className="text-white bg-dark-1 w-full h-screen px-4 ">
       <LoadingBar
         color="#f11946"
         progress={progress}
         onLoaderFinished={() => setProgress(0)}
       />
       <h1 className="text-2xl font-bold my-10">Community</h1>
-      <div className=" w-full h-full overflow-y-auto flex flex-col gap-7 pb-20">
+      <div className=" w-full h-full overflow-y-auto flex flex-col gap-7 pb-20 px-4 ">
         {users &&
           users.map((user) => {
             return (

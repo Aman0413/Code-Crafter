@@ -23,6 +23,13 @@ module.exports = {
       fontFamily: {
         heading: ["Pacifico", "cursive"],
       },
+      keyframes: {
+        shimmer: {
+          "100%": {
+            transform: "translateX(100%)",
+          },
+        },
+      },
     },
   },
   plugins: [],

@@ -60,6 +60,7 @@ function ShowUser({
       {view ? (
         <button
           className={`flex justify-center items-center h-8 md:h-10 md:w-28 w-16  rounded-lg gap-3 font-bold   bg-primary-500 text-white text-sm md:text-base`}
+          onClick={() => navigate(`/profile/${id}`)}
         >
           <p>View</p>
         </button>

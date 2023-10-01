@@ -10,7 +10,7 @@ import { PiUsersThreeBold } from "react-icons/pi";
 import { GoFileMedia } from "react-icons/go";
 import ShowUser from "../components/utils/ShowUser";
 import LoadingBar from "react-top-loading-bar";
-import PostCardShimmerEffect from "../components/PostCardShimmerEffect";
+import ProfileShimmer from "../components/ProfileShimmer";
 
 function Profile() {
   const dispatch = useDispatch();
@@ -42,6 +42,7 @@ function Profile() {
   useEffect(() => {
     dispatch(getMyProfile());
     fetchUserProfile(id);
+    setShowTabs("posts");
   }, [id, dispatch]);
 
   return (
@@ -51,6 +52,7 @@ function Profile() {
         progress={progress}
         onLoaderFinished={() => setProgress(0)}
       />
+      {!userProfile && <ProfileShimmer />}
 
       {userProfile && (
         <ProfileInfo
@@ -166,15 +168,7 @@ function Profile() {
           showTabs === "posts" ? "block" : "hidden"
         } `}
       >
-        {" "}
         <div className="w-full flex bg-dark-1 flex-col justify-center items-center ">
-          {!userProfile && (
-            <div className="flex flex-col justify-center  w-full items-center gap-8">
-              <PostCardShimmerEffect />
-              <PostCardShimmerEffect />
-              <PostCardShimmerEffect />
-            </div>
-          )}
           {userProfile?.posts?.length > 0 ? (
             <>
               {userProfile &&

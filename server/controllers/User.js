@@ -9,7 +9,10 @@ const cloudinary = require("cloudinary");
 exports.getUserProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.id)
-      .populate("posts")
+      .populate({
+        path: "posts",
+        options: { sort: { createdAt: -1 } },
+      })
       .populate({
         path: "followers",
         populate: [
@@ -27,6 +30,7 @@ exports.getUserProfile = async (req, res) => {
             },
           },
         ],
+        options: { sort: { createdAt: -1 } },
       })
       .populate("story") // Populate the user's stories
       .exec();
@@ -256,14 +260,16 @@ exports.getUserProfileById = async (req, res) => {
           populate: {
             path: "user", // Assuming "user" is the field that references users in your Comment schema
           },
-          options: { sort: { createdAt: -1 } },
         },
+        options: { sort: { createdAt: -1 } },
       })
       .populate({
         path: "followers",
+        options: { sort: { createdAt: -1 } },
       })
       .populate({
         path: "followings",
+        options: { sort: { createdAt: -1 } },
       })
       .exec();
 
